@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E2C5DA822666D1700B2D8D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */; };
 		3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */; };
 		3E8F3BFE22660F5E003B8DCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFD22660F5E003B8DCC /* ViewController.swift */; };
 		3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFF22660F5E003B8DCC /* Main.storyboard */; };
@@ -16,9 +17,11 @@
 		3EE341BE2266490D00555CC4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BD2266490D00555CC4 /* Events.swift */; };
 		3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */; };
 		3EE341C6226664E300555CC4 /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* code.py */; };
+		E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3E8F3BF822660F5E003B8DCC /* DoorSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoorSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E8F3BFD22660F5E003B8DCC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,6 +33,9 @@
 		3EE341BD2266490D00555CC4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewController.swift; sourceTree = "<group>"; };
 		3EE341C5226664E300555CC4 /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = "<group>"; };
+		7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.release.xcconfig"; sourceTree = "<group>"; };
+		8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoorSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA53D93C73CC00E6603CAA13 /* Pods-DoorSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,17 +43,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		097988F045166BD5F8B8F275 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BA53D93C73CC00E6603CAA13 /* Pods-DoorSign.debug.xcconfig */,
+				7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		12D571C0DD0C77A95659A015 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3E8F3BEF22660F5E003B8DCC = {
 			isa = PBXGroup;
 			children = (
 				3E8F3BFA22660F5E003B8DCC /* DoorSign */,
 				3E8F3BF922660F5E003B8DCC /* Products */,
+				097988F045166BD5F8B8F275 /* Pods */,
+				12D571C0DD0C77A95659A015 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +97,7 @@
 				3E8F3C0222660F60003B8DCC /* Assets.xcassets */,
 				3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */,
 				3E8F3C0722660F60003B8DCC /* Info.plist */,
+				3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */,
 				3EE341C5226664E300555CC4 /* code.py */,
 			);
 			path = DoorSign;
@@ -83,9 +110,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E8F3C0A22660F60003B8DCC /* Build configuration list for PBXNativeTarget "DoorSign" */;
 			buildPhases = (
+				46683FD5C088D53A4A88D1CA /* [CP] Check Pods Manifest.lock */,
 				3E8F3BF422660F5E003B8DCC /* Sources */,
 				3E8F3BF522660F5E003B8DCC /* Frameworks */,
 				3E8F3BF622660F5E003B8DCC /* Resources */,
+				86A8A399CA1987A7E541DD23 /* [CP] Embed Pods Frameworks */,
+				7E8203127C26844B8F800AF2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -136,12 +166,104 @@
 			files = (
 				3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */,
 				3EE341C6226664E300555CC4 /* code.py in Resources */,
+				3E2C5DA822666D1700B2D8D1 /* GoogleService-Info.plist in Resources */,
 				3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */,
 				3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		46683FD5C088D53A4A88D1CA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DoorSign-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E8203127C26844B8F800AF2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86A8A399CA1987A7E541DD23 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3E8F3BF422660F5E003B8DCC /* Sources */ = {
@@ -296,10 +418,11 @@
 		};
 		3E8F3C0B22660F60003B8DCC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BA53D93C73CC00E6603CAA13 /* Pods-DoorSign.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9937BJYLPH;
+				DEVELOPMENT_TEAM = GA34U7H7XD;
 				INFOPLIST_FILE = DoorSign/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -314,10 +437,11 @@
 		};
 		3E8F3C0C22660F60003B8DCC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9937BJYLPH;
+				DEVELOPMENT_TEAM = GA34U7H7XD;
 				INFOPLIST_FILE = DoorSign/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

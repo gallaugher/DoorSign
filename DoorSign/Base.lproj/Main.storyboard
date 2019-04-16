@@ -55,6 +55,7 @@
                         <viewLayoutGuide key="safeArea" id="Z2e-5W-m5s"/>
                     </view>
                     <navigationItem key="navigationItem" id="52L-46-Jah">
+                        <barButtonItem key="leftBarButtonItem" title="Sign Out" id="a8t-aC-RTz"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ORz-MB-JrV">
                             <connections>
                                 <segue destination="33h-j6-3S5" kind="presentation" identifier="AddEvent" id="wkg-q6-xaB"/>
@@ -282,7 +283,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="6Ks-oe-GDg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="215.66666666666666"/>
                                                     <date key="date" timeIntervalSinceReferenceDate="577131840.47606504">
                                                         <!--2019-04-16 18:24:00 +0000-->
                                                     </date>
