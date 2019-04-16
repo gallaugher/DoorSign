@@ -9,12 +9,24 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var tableView: UITableView!
+    
+    var events = Events()
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
     }
-
-
 }
 
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return events.eventArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        cell.textLabel?.text = events.eventArray[indexPath.row].eventName
+        return cell
+    }
+}

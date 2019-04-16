@@ -12,6 +12,10 @@
 		3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFF22660F5E003B8DCC /* Main.storyboard */; };
 		3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3C0222660F60003B8DCC /* Assets.xcassets */; };
 		3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */; };
+		3EE341BC2266482500555CC4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BB2266482500555CC4 /* Event.swift */; };
+		3EE341BE2266490D00555CC4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BD2266490D00555CC4 /* Events.swift */; };
+		3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */; };
+		3EE341C6226664E300555CC4 /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* code.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		3E8F3C0222660F60003B8DCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E8F3C0522660F60003B8DCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E8F3C0722660F60003B8DCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EE341BB2266482500555CC4 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		3EE341BD2266490D00555CC4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewController.swift; sourceTree = "<group>"; };
+		3EE341C5226664E300555CC4 /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,11 +63,15 @@
 			isa = PBXGroup;
 			children = (
 				3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */,
+				3EE341BB2266482500555CC4 /* Event.swift */,
+				3EE341BD2266490D00555CC4 /* Events.swift */,
 				3E8F3BFD22660F5E003B8DCC /* ViewController.swift */,
+				3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */,
 				3E8F3BFF22660F5E003B8DCC /* Main.storyboard */,
 				3E8F3C0222660F60003B8DCC /* Assets.xcassets */,
 				3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */,
 				3E8F3C0722660F60003B8DCC /* Info.plist */,
+				3EE341C5226664E300555CC4 /* code.py */,
 			);
 			path = DoorSign;
 			sourceTree = "<group>";
@@ -123,6 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */,
+				3EE341C6226664E300555CC4 /* code.py in Resources */,
 				3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */,
 				3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */,
 			);
@@ -135,7 +148,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */,
+				3EE341BE2266490D00555CC4 /* Events.swift in Sources */,
 				3E8F3BFE22660F5E003B8DCC /* ViewController.swift in Sources */,
+				3EE341BC2266482500555CC4 /* Event.swift in Sources */,
 				3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
