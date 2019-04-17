@@ -23,9 +23,17 @@ class ViewController: UIViewController {
         // initializing the authUI var and setting the delegate are step [3]
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
-        events = Events()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isHidden = true
+        
+        events = Events()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        events.loadData {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +51,18 @@ class ViewController: UIViewController {
             present(authUI.authViewController(), animated: true, completion: nil)
         } else {
             tableView.isHidden = false
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowEvent" {
+            let destination = segue.destination as! EventDetailTableViewController
+            let selectedIndexPath = tableView.indexPathForSelectedRow!
+            destination.event = events.eventArray[selectedIndexPath.row]
+        } else {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                tableView.deselectRow(at: selectedIndexPath, animated: true)
+            }
         }
     }
     

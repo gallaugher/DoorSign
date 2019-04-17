@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Event.swift
 //  DoorSign
 //
 //  Created by John Gallaugher on 4/16/19.
@@ -7,12 +7,74 @@
 //
 
 import Foundation
+import Firebase
 
-struct Event {
+class Event {
     var eventName: String
-    var eventDate: Date
-    var eventStartTime: Date
-    var eventEndTime: Date
+    var dateString: String
+    var timeString: String
     var eventLocation: String
     var eventDescription: String
+    var fontSize: Int // 0=small, 1=medium, 2=large
+    var documentID: String
+    
+    var dictionary: [String: Any] {
+        return ["eventName": eventName, "dateString": dateString, "timeString": timeString, "eventLocation": eventLocation, "eventDescription": eventDescription, "fontSize": fontSize]
+    }
+    
+    init(eventName: String, dateString: String, timeString: String, eventLocation: String, eventDescription: String, fontSize: Int, documentID: String) {
+        self.eventName = eventName
+        self.dateString = dateString
+        self.timeString = timeString
+        self.eventLocation = eventLocation
+        self.eventDescription = eventDescription
+        self.fontSize = fontSize
+        self.documentID = documentID
+    }
+    
+    convenience init() {
+        self.init(eventName: "", dateString: "", timeString: "", eventLocation: "", eventDescription: "", fontSize: 0, documentID: "")
+    }
+    
+    convenience init(dictionary: [String: Any]) {
+        let eventName = dictionary["eventName"] as! String? ?? ""
+        let dateString = dictionary["dateString"] as! String? ?? ""
+        let timeString = dictionary["timeString"] as! String? ?? ""
+        let eventLocation = dictionary["eventLocation"] as! String? ?? ""
+        let eventDescription = dictionary["eventDescription"] as! String? ?? ""
+        let fontSize = dictionary["fontSize"] as! Int? ?? 0
+        self.init(eventName: eventName, dateString: dateString, timeString: timeString, eventLocation: eventLocation, eventDescription: eventDescription, fontSize: fontSize, documentID: "")
+    }
+    
+    // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.
+    func saveData(completed: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        // Create the dictionary representing the data we want to save
+        let dataToSave = self.dictionary
+        // if we HAVE saved a record, we'll have a documentID
+        if self.documentID != "" {
+            let ref = db.collection("events").document(self.documentID)
+            ref.setData(dataToSave) { (error) in
+                if let error = error {
+                    print("*** ERROR: updating document \(self.documentID) \(error.localizedDescription)")
+                    completed(false)
+                } else {
+                    print("^^^ Document updated with ref ID \(ref.documentID)")
+                    completed(true)
+                }
+            }
+        } else {
+            var ref: DocumentReference? = nil // Let firestore create the new documentID
+            ref = db.collection("events").addDocument(data: dataToSave) { error in
+                if let error = error {
+                    print("*** ERROR: creating new document \(error.localizedDescription)")
+                    completed(false)
+                } else {
+                    print("^^^ new document created with ref ID \(ref?.documentID ?? "unknown")")
+                    self.documentID = ref!.documentID
+                    completed(true)
+                }
+            }
+        }
+    }
 }

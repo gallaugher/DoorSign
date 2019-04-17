@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E2C5DA822666D1700B2D8D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */; };
+		3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */; };
 		3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */; };
 		3E8F3BFE22660F5E003B8DCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFD22660F5E003B8DCC /* ViewController.swift */; };
 		3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFF22660F5E003B8DCC /* Main.storyboard */; };
@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3E8F3BF822660F5E003B8DCC /* DoorSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoorSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E8F3BFD22660F5E003B8DCC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 				3E8F3C0222660F60003B8DCC /* Assets.xcassets */,
 				3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */,
 				3E8F3C0722660F60003B8DCC /* Info.plist */,
-				3E2C5DA722666D1700B2D8D1 /* GoogleService-Info.plist */,
+				3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */,
 				3EE341C5226664E300555CC4 /* code.py */,
 			);
 			path = DoorSign;
@@ -166,7 +166,7 @@
 			files = (
 				3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */,
 				3EE341C6226664E300555CC4 /* code.py in Resources */,
-				3E2C5DA822666D1700B2D8D1 /* GoogleService-Info.plist in Resources */,
+				3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */,
 				3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */,
 				3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */,
 			);
