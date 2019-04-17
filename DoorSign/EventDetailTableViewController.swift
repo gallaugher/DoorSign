@@ -59,9 +59,9 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         timeLabelHeight = timeLabel.frame.height
         originalLocationY = locationLabel.frame.origin.y
         // hide keyboard if we tap outside of a field
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+//        tap.cancelsTouchesInView = false
+//        self.view.addGestureRecognizer(tap)
         
         if event == nil { // We are adding a new record, fields should be editable
             event = Event()
@@ -79,6 +79,8 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         updateFontSize(selection: event.fontSize)
         nameTextField.text = event.eventName
         nameLabel.text = event.eventName
+        startTimePicker.date = Date(timeIntervalSince1970: event.startInterval)
+        endTimePicker.date = Date(timeIntervalSince1970: event.endInterval)
         timeLabel.text = event.timeString
         dateLabel.text = event.dateString
         locationTextField.text = event.eventLocation
@@ -110,9 +112,6 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
     }
     
     func updateDateViews() {
-        print("\n UPDATE DATE VIEWS")
-        print("dateFormatter.string(from: startTimePicker.date) = \(dateFormatter.string(from: startTimePicker.date))")
-        print("dateFormatter.string(from: endTimePicker.date) = \(dateFormatter.string(from: endTimePicker.date))")
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         
@@ -138,7 +137,8 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         
         if startDate == endDate {
             UIView.animate(withDuration: 0.25, animations: {self.locationLabel.frame.origin.y = self.originalLocationY; self.descriptionLabelView.frame.origin.y = self.originalLocationY + self.timeLabelHeight}) {_ in
-                self.timeLabel.isHidden = false
+                self.timeLabel.isHidden = false;
+                self.descriptionLabelView.text = self.event.eventDescription;
             }
             dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
             dateLabel.text = dateFormatter.string(from: startTimePicker.date)
@@ -152,9 +152,11 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
             dateLabel.text = "\(startDate) - \(endDate)"
             timeLabel.text = ""
             UIView.animate(withDuration: 0.25, animations: {self.locationLabel.frame.origin.y = self.timeLabel.frame.origin.y;
-                self.descriptionLabelView.frame.origin.y = self.originalLocationY})
-//            dateLabel.text = "\(startDate) \(dateFormatter.string(from: startTimePicker.date)) through "
-//            timeLabel.text = "\(endDate) \(dateFormatter.string(from: endTimePicker.date))"
+                self.descriptionLabelView.frame.origin.y = self.originalLocationY}) {_ in
+                    self.locationLabel.text = self.event.eventLocation
+                    self.descriptionLabelView.text = self.event.eventDescription
+            }
+
         }
     }
     
@@ -174,6 +176,8 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         event.eventName =  nameTextField.text!
+        event.startInterval = startTimePicker.date.timeIntervalSince1970
+        event.endInterval = endTimePicker.date.timeIntervalSince1970
         event.dateString = dateLabel.text!
         event.timeString = timeLabel.text!
         event.eventLocation = locationTextField.text!
@@ -233,7 +237,7 @@ extension EventDetailTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        print("😀😀😀 indexPath.section = \(indexPath.section) indexPath.row = \(indexPath.row)")
         switch (indexPath.section, indexPath.row) {
         case (startTimePickerCellIndexPath.section,
               startTimePickerCellIndexPath.row - 1):
