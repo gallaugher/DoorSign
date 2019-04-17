@@ -11,8 +11,9 @@ import Firebase
 
 class Event {
     var eventName: String
+    // CAM CODE
     var startInterval: TimeInterval // same as a Double
-    var endInterval: TimeInterval
+    var endInterval: TimeInterval // the TimeIntervals can be conerted to Date()
     var dateString: String
     var timeString: String
     var eventLocation: String

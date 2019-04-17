@@ -2,6 +2,14 @@
 Put this code on a properly configured PyPortal. You can buy one
 from Adafruit:
 https://www.adafruit.com/product/4116
+
+Special thanks to John for posting touch-screen code he used in his
+PyPortal app launcher:
+https://furcean.com/2019/03/21/pyportal-app-launcher/
+
+And John Park & the Adafruit crew for the PyPortal Weather Station
+demo, which was helpful in understanding JSON parsing.
+https://learn.adafruit.com/pyportal-weather-station/overview
 """
 import time
 import board
@@ -14,24 +22,13 @@ cwd = ("/"+__file__).rsplit('/', 1)[0]
 # Initialize the pyportal object and let us know what data to fetch and where
 # to display it
 
-DATA_SOURCE = "https://firestore.googleapis.com/v1beta1/projects/door-sign-da583/databases/(default)/documents/events/"   # pylint: disable=line-too-long
+DATA_SOURCE = "https://firestore.googleapis.com/v1beta1/projects/doorsign-3557c/databases/(default)/documents/events/"   # pylint: disable=line-too-long
 DATA_LOCATION = [0, "documents"]
 
 pyportal = PyPortal(url=DATA_SOURCE,
-                    default_bg=cwd+"/BC_Background.bmp",)
+                    default_bg=cwd+"/home_screen.bmp",)
 
 events_list=[]
-
-"""
-pyportal = PyPortal(url=DATA_SOURCE,
-                    json_path=DATA_LOCATION,
-                    default_bg=cwd+"/BC_Background.bmp",)
-"""
-
-"""
-pyportal = PyPortal(url='',
-                    default_bg=cwd+"/BC_Background.bmp",)
-"""
 
 # These pins are used as both analog and digital! XL, XR and YU must be analog
 # and digital capable. YD just need to be digital
@@ -42,22 +39,17 @@ ts = adafruit_touchscreen.Touchscreen(board.TOUCH_XL, board.TOUCH_XR,
 numOfEvents = 3
 current_event = 0
 
-# track the last value so we can play a sound when it updates
-last_value = 0
 p_list = []
-current_image = "BC_Background.bmp"
+# This will be the first screen shown. Make sure you have
+# a 360 x 240 16 bit, bmp file. JPEG, PNG, GIFs wont work.
+current_image = "home_screen.bmp"
 
 main_buttons = [dict(left=0, top=180, right=80, bottom=240),    # courses
             dict(left=80, top=180, right=160, bottom=240),   # contact
             dict(left=160, top=180, right=240, bottom=240),  # news
-            dict(left=240, top=180, right=360, bottom=240),   # back
-            dict(left=0, top=80, right=55, bottom=130), # left arrow
-            dict(left=265, top=80, right=320, bottom=130)] # right arrow
-
-return_buttons = [dict(left=240, top=180, right=360, bottom=240)] # only one back button
-
-arrow_butons = [dict(left=0, top=80, right=35, bottom=125),
-            dict(left=280, top=90, right=360, bottom=125)]
+            dict(left=240, top=180, right=360, bottom=240),   # back - on all but home_screen.bmp
+            dict(left=0, top=80, right=55, bottom=130), # left arrow  - only on news
+            dict(left=265, top=80, right=320, bottom=130)] # right arrow  - only on news
 
 def get_news():
     global events_list
@@ -66,18 +58,32 @@ def get_news():
         value = pyportal.fetch()
         events_json=json.loads(value)
         events_list=events_json["documents"]
+        print("There are", len(events_list), "events in Cloud Firestore."))
     except (ValueError, RuntimeError) as e:
         print("Some error occured, retrying! -", e)
 
 def print_current_event():
         print("*** PRINTING CURRENT EVENT ", current_event, " ***")
-        print(events_list[current_event]["fields"]["name"]["stringValue"])
-        event_details = events_list[current_event]["fields"]["details"]["stringValue"].replace("\\n","\n")
+        print(events_list[current_event]["fields"]["eventName"]["stringValue"])
+        print(events_list[current_event]["fields"]["dateString"]["stringValue"])
+        print(events_list[current_event]["fields"]["timeString"]["stringValue"])
+        print(events_list[current_event]["fields"]["eventLocation"]["stringValue"])
+        print(events_list[current_event]["fields"]["eventDescription"]["stringValue"])
+        
+        print(events_list[current_event]["fields"]["fontSize"]["integerValue"])
+        print(events_list[current_event]["fields"]["startInterval"]["doubleValue"])
+        print("\") # new line
+        
+        # line below is useful if you're using CloudFirestore w/o the app & want to insert
+        # new line commands by typing \n. Firestore converts these to \\n, but the replace
+        # below will remove the extra \ so that linefeeds show up.
+        # event_details = events_list[current_event]["fields"]["details"]["stringValue"].replace("\\n","\n")
         print(event_details)
 
 def touch_in_button(t, b):
     in_horizontal = b['left'] <= t[0] <= b['right']
     in_vertical = b['top'] <= t[1] <= b['bottom']
+      # returns True if point t is in main_button's left, top, right, bottom rectangle
     return in_horizontal and in_vertical
 
 def handle_press_action(button_number):
@@ -98,31 +104,35 @@ def handle_press_action(button_number):
         pyportal.set_background('contact_pressed.bmp')
         # sleap to show press for a bit before updating
         time.sleep(.5)
-        pyportal.set_background('gold-contact.bmp')
-        current_image = 'gold-contact.bmp'
+        pyportal.set_background('contact.bmp')
+        current_image = 'contact.bmp'
     elif button_number == 2:
         print("*** News Touched ***")
         get_news()
-        pyportal.set_background('news_pressed.bmp')
+        pyportal.set_background('events_pressed.bmp')
         # sleap to show press for a bit before updating
         time.sleep(.5)
         print_current_event()
+
+          # In basic version w/o Firebase, events are named starting with event0
         current_image = 'event' + str(current_event) + '.bmp'
         pyportal.set_background(current_image)
         print("current_image = ", current_image)
-    elif button_number == 3 and current_image != 'BC_Background.bmp':
+    elif button_number == 3 and current_image != 'home_screen.bmp':
         print("<= Back Touched <=")
-        pyportal.set_background('BC_Background.bmp')
-        current_image = 'BC_Background.bmp'
+        pyportal.set_background('home_screen.bmp')
+        current_image = 'home_screen.bmp'
+              # TODO - line below won't work if we're creating images with each page
     elif button_number == 4 and current_image.startswith('event'):
         print("<<< BWD Button Touched <<<")
-        global current_event
+        global current_event # TODO - do I even need to declare this since it was declared earlier?
         current_event = current_event - 1
         if current_event < 0:
             current_event = numOfEvents-1
         current_image = 'event' + str(current_event) +'.bmp'
         pyportal.set_background(current_image)
         print_current_event()
+              # TODO - line below won't work if we're creating images with each page
     elif button_number == 5 and current_image.startswith('event'):
         print(">>> FWD Button Touched >>>")
         current_event = current_event + 1
@@ -166,25 +176,4 @@ while True:
         time.sleep(.5)
         # clear p
         p_list = []
-"""
-        # Get json data
-        print("ABOUT TO CALL PyPortal")
-        try:
-            value = pyportal.fetch()
-            events_json=json.loads(value)
-            events_list=events_json["documents"]
-            print(events_list[2]["fields"]["name"]["stringValue"])
-            print(events_list[2]["fields"]["details"]["stringValue"])
-            event_details = events_list[2]["fields"]["details"]["stringValue"].replace("\\n","\n")
-            print(event_details)
-            # event_details = events_list[2]["fields"]["details"]["stringValue"].split()
-            print("*** and now loop ***")
-            for i in events_list:
-                event_name=i["fields"]["name"]["stringValue"]
-                print(type(event_name))
-                print(event_name)
 
-        except (ValueError, RuntimeError) as e:
-            print("Some error occured, retrying! -", e)
-
-"""
