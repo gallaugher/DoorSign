@@ -10,53 +10,51 @@ import Foundation
 import Firebase
 
 class Event {
-    var eventName: String
-    // CAM CODE
-//    var startInterval: TimeInterval // same as a Double
-//    var endInterval: TimeInterval // the TimeIntervals can be conerted to Date()
+    var title: String
+    var body: String
     var startTime: Date
     var endTime: Date
-    var dateString: String
-    var timeString: String
     var eventLocation: String
     var eventDescription: String
+    var allDay: Bool // No times if all day
+    var numOfLines: Int // 0=1, 1=2, 2=full screen
     var fontSize: Int // 0=small, 1=medium, 2=large
     var documentID: String
     
     var dictionary: [String: Any] {
-        return ["eventName": eventName, "startTime": Timestamp(date: startTime), "endTime": Timestamp(date: endTime), "dateString": dateString, "timeString": timeString, "eventLocation": eventLocation, "eventDescription": eventDescription, "fontSize": fontSize]
+        return ["title": title, "body": body, "startTime": Timestamp(date: startTime), "endTime": Timestamp(date: endTime), "eventLocation": eventLocation, "eventDescription": eventDescription, "allDay": allDay, "numOfLines": numOfLines, "fontSize": fontSize]
     }
     
-    init(eventName: String, startTime: Date, endTime: Date, dateString: String, timeString: String, eventLocation: String, eventDescription: String, fontSize: Int, documentID: String) {
-        self.eventName = eventName
+    init(title: String, body: String, startTime: Date, endTime: Date, eventLocation: String, eventDescription: String, allDay: Bool, numOfLines: Int, fontSize: Int, documentID: String) {
+        self.title = title
+        self.body = body
         self.startTime = startTime
         self.endTime = endTime
-        self.dateString = dateString
-        self.timeString = timeString
         self.eventLocation = eventLocation
         self.eventDescription = eventDescription
+        self.allDay = allDay
+        self.numOfLines = numOfLines
         self.fontSize = fontSize
         self.documentID = documentID
     }
     
     convenience init() {
-        self.init(eventName: "", startTime: Date(), endTime: Date(), dateString: "", timeString: "", eventLocation: "", eventDescription: "", fontSize: 0, documentID: "")
+        self.init(title: "", body: "", startTime: Date(), endTime: Date(), eventLocation: "", eventDescription: "", allDay: false, numOfLines: 1, fontSize: 0, documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
-        let eventName = dictionary["eventName"] as! String? ?? ""
-        // let startTime = dictionary["startTime"] as! Date? ?? Date()
-        // let endTime = dictionary["endTime"] as! Date? ?? Date()
+        let title = dictionary["title"] as! String? ?? ""
+        let body = dictionary["body"] as! String? ?? ""
         let startTimeStamp = dictionary["startTime"] as! Timestamp? ?? Timestamp(date: Date())
         let startTime = startTimeStamp.dateValue()
         let endTimeStamp = dictionary["endTime"] as! Timestamp? ?? Timestamp(date: Date())
         let endTime = endTimeStamp.dateValue()
-        let dateString = dictionary["dateString"] as! String? ?? ""
-        let timeString = dictionary["timeString"] as! String? ?? ""
         let eventLocation = dictionary["eventLocation"] as! String? ?? ""
         let eventDescription = dictionary["eventDescription"] as! String? ?? ""
+        let allDay = dictionary["allDay"] as! Bool? ?? false
+        let numOfLines = dictionary["numOfLines"] as! Int? ?? 0
         let fontSize = dictionary["fontSize"] as! Int? ?? 0
-        self.init(eventName: eventName, startTime: startTime, endTime: endTime, dateString: dateString, timeString: timeString, eventLocation: eventLocation, eventDescription: eventDescription, fontSize: fontSize, documentID: "")
+        self.init(title: title, body: body, startTime: startTime, endTime: endTime, eventLocation: eventLocation, eventDescription: eventDescription, allDay: allDay, numOfLines: numOfLines, fontSize: fontSize, documentID: "")
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.

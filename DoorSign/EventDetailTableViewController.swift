@@ -9,15 +9,30 @@
 import UIKit
 
 class EventDetailTableViewController: UITableViewController, UITextViewDelegate {
+    
+    enum TitleLabelHeight: CGFloat {
+        case one = 50
+        case two = 104
+        case full = 232
+        // start of body is TitleHeight + 1
+    }
+    
+    enum NumberOfLines: Int {
+        case one = 0
+        case two = 1
+        case fullScreen = 2
+    }
+    
     @IBOutlet weak var saveBarButton: UIBarButtonItem!
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
-    @IBOutlet weak var descriptionLabelView: UITextView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var textBodyLabelView: UITextView!
     
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var numberOfLinesSegment: UISegmentedControl!
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var fontSizeSegmentedControl: UISegmentedControl!
+
+    @IBOutlet weak var allDaySwitch: UISwitch!
     @IBOutlet weak var startTimeLabel: UILabel!
     @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var locationTextField: UITextField!
@@ -26,20 +41,19 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
     
     @IBOutlet weak var startTimePicker: UIDatePicker!
     @IBOutlet weak var endTimePicker: UIDatePicker!
-    @IBOutlet weak var fontSizeSegmentedControl: UISegmentedControl!
-    
+
     var event: Event!
-    
-    
+    var firstLine = ""
+    var secondLine = ""
     let dateFormatter = DateFormatter()
     
     let dateTimeCellHeight: CGFloat = 37
     var timeLabelHeight: CGFloat!
     var originalLocationY: CGFloat!
-    let startTimePickerCellIndexPath = IndexPath(row: 1, section:
+    let startTimePickerCellIndexPath = IndexPath(row: 2, section:
         2)
-    let endTimePickerCellIndexPath = IndexPath(row: 1, section:
-        3)
+    let endTimePickerCellIndexPath = IndexPath(row: 4, section:
+        2)
     
     var isStartTimePickerShown: Bool = false {
         didSet {
@@ -56,52 +70,53 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         descriptionTextView.delegate = self
-        timeLabelHeight = timeLabel.frame.height
-        originalLocationY = locationLabel.frame.origin.y
+
         // hide keyboard if we tap outside of a field
-//        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-//        tap.cancelsTouchesInView = false
-//        self.view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         
-        if event == nil { // We are adding a new record, fields should be editable
+        if event == nil { // We are adding a new record
             event = Event()
+            event.numOfLines = NumberOfLines.fullScreen.rawValue
             event.fontSize = 2
         }
-        
+        numberOfLinesSegment.selectedSegmentIndex = event.numOfLines
+        handleNumberOfLinesChange()
         startTimePicker.minimumDate = Date()
         
+        numberOfLinesSegment.selectedSegmentIndex = event.numOfLines
         updateUserInterface()
         updateDateViews()
     }
     
     func updateUserInterface() {
+        numberOfLinesSegment.selectedSegmentIndex = event.numOfLines
+        titleTextField.text = event.title
+        textBodyLabelView.text = event.body
         fontSizeSegmentedControl.selectedSegmentIndex = event.fontSize
         updateFontSize(selection: event.fontSize)
-        nameTextField.text = event.eventName
-        nameLabel.text = event.eventName
-        // This is how you turn a TimeInterval into a Date object
-//        startTimePicker.date = Date(timeIntervalSince1970: event.startInterval)
-//        endTimePicker.date = Date(timeIntervalSince1970: event.endInterval)
+        // TODO create an updateBody / updateTitleTextFieldSize function
+        titleLabel.text = event.title
         startTimePicker.date = event.startTime
         endTimePicker.date = event.endTime
-        timeLabel.text = event.timeString
-        dateLabel.text = event.dateString
         locationTextField.text = event.eventLocation
-        locationLabel.text = event.eventLocation
         descriptionTextView.text = event.eventDescription
+        
+        // TODO I need to keep track of a date & time string so I can add properly formatted string to descriptionTextVIew.text & event.body
     }
     
     func updateFontSize(selection: Int) {
         switch selection {
         case 0:
-            nameLabel.font = nameLabel.font.withSize(18)
-            nameTextField.font = nameTextField.font?.withSize(18)
+            titleLabel.font = titleLabel.font.withSize(18)
+            titleTextField.font = titleTextField.font?.withSize(18)
         case 1:
-            nameLabel.font = nameLabel.font.withSize(28)
-            nameTextField.font = nameTextField.font?.withSize(28)
+            titleLabel.font = titleLabel.font.withSize(28)
+            titleTextField.font = titleTextField.font?.withSize(28)
         default:
-            nameLabel.font = nameLabel.font.withSize(38)
-            nameTextField.font = nameTextField.font?.withSize(38)
+            titleLabel.font = titleLabel.font.withSize(38)
+            titleTextField.font = titleTextField.font?.withSize(38)
         }
     }
     
@@ -137,58 +152,104 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
         let startDate = dateFormatter.string(from: startTimePicker.date)
         let endDate = dateFormatter.string(from: endTimePicker.date)
-        
-        if startDate == endDate {
-            UIView.animate(withDuration: 0.25, animations: {self.locationLabel.frame.origin.y = self.originalLocationY; self.descriptionLabelView.frame.origin.y = self.originalLocationY + self.timeLabelHeight}) {_ in
-                self.timeLabel.isHidden = false;
-                self.locationLabel.text = self.event.eventLocation;
-                self.descriptionLabelView.text = self.event.eventDescription
-            }
+        if event.allDay {
             dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
-            dateLabel.text = dateFormatter.string(from: startTimePicker.date)
-            dateFormatter.dateStyle = .none
-            timeLabel.text = dateFormatter.string(from: startTimePicker.date) + " - " + dateFormatter.string(from: endTimePicker.date)
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .short
-        } else {
-            timeLabel.isHidden = true
-            dateFormatter.dateStyle = .none
-            dateLabel.text = "\(startDate) - \(endDate)"
-            timeLabel.text = ""
-            UIView.animate(withDuration: 0.25, animations: {self.locationLabel.frame.origin.y = self.timeLabel.frame.origin.y;
-                self.descriptionLabelView.frame.origin.y = self.originalLocationY}) {_ in
-                    self.locationLabel.text = self.event.eventLocation
-                    self.descriptionLabelView.text = self.event.eventDescription
+            if startDate == endDate {
+                firstLine = dateFormatter.string(from: startTimePicker.date) + "\n"
+            } else {
+                firstLine = "\(dateFormatter.string(from: startTimePicker.date)) - \(dateFormatter.string(from: endTimePicker.date))" + "\n"
             }
-
+            
+            dateFormatter.dateStyle = .none
+            secondLine = ""
+            dateFormatter.dateStyle = .medium
+        } else if startDate == endDate {
+            dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
+            firstLine = dateFormatter.string(from: startTimePicker.date) + "\n" // slash n adds a new line
+            dateFormatter.dateStyle = .none
+            secondLine = dateFormatter.string(from: startTimePicker.date) + " - " + dateFormatter.string(from: endTimePicker.date) + "\n"
+            dateFormatter.dateStyle = .medium
+        } else {
+            dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
+            dateFormatter.timeStyle = .short
+            firstLine = "\(dateFormatter.string(from: startTimePicker.date)) - " + "\n"
+            secondLine = "\(dateFormatter.string(from: endTimePicker.date))" + "\n"
+        }
+        startTimeLabel.text = dateFormatter.string(from:
+            startTimePicker.date)
+        endTimeLabel.text = dateFormatter.string(from:
+            endTimePicker.date)
+        textBodyLabelView.text = "\(firstLine)\(secondLine)\(event.eventLocation)\n\(event.eventDescription)"
+    }
+    
+    func handleAllDayChange(){
+        event.allDay = allDaySwitch.isOn
+        if allDaySwitch.isOn {
+            dateFormatter.timeStyle = .none
+            startTimePicker.datePickerMode = .date
+            endTimePicker.datePickerMode = .date
+            updateDateFields()
+        } else {
+            dateFormatter.timeStyle = .short
+            startTimePicker.datePickerMode = .dateAndTime
+            endTimePicker.datePickerMode = .dateAndTime
+            updateDateFields()
         }
     }
     
+    func handleNumberOfLinesChange() {
+        event.numOfLines = numberOfLinesSegment.selectedSegmentIndex
+        // var titleFrameRect = titleLabel.frame // rect doesn't matter, we'll change it. This is an easy var init
+        let bodyFrameRect = textBodyLabelView.frame
+        switch event.numOfLines {
+        case NumberOfLines.one.rawValue:
+            titleLabel.frame = CGRect(x: titleLabel.frame.origin.x, y: titleLabel.frame.origin.y, width: titleLabel.frame.width, height: TitleLabelHeight.one.rawValue)
+        case NumberOfLines.two.rawValue:
+            titleLabel.frame = CGRect(x: titleLabel.frame.origin.x, y: titleLabel.frame.origin.y, width: titleLabel.frame.width, height: TitleLabelHeight.two.rawValue)
+        case NumberOfLines.fullScreen.rawValue:
+            titleLabel.frame = CGRect(x: titleLabel.frame.origin.x, y: titleLabel.frame.origin.y, width: titleLabel.frame.width, height: TitleLabelHeight.full.rawValue)
+        default:
+            print("😡 ERROR: Case choice should not have occurred!")
+        }
+        textBodyLabelView.frame = CGRect(x: bodyFrameRect.origin.x, y: titleLabel.frame.origin.y+titleLabel.frame.height+1, width: bodyFrameRect.width, height: 240-titleLabel.frame.origin.y+titleLabel.frame.height+1)
+        titleLabel.text = event.title
+        textBodyLabelView.text = "\(firstLine)\(secondLine)\(locationTextField.text!)\n\(descriptionTextView.text!)"
+    }
+    
     func textViewDidChange(_ textView: UITextView) { //Handle the text changes here
-        descriptionLabelView.text = descriptionTextView.text
+        event.eventDescription = descriptionTextView.text!
+        textBodyLabelView.text = descriptionTextView.text!
+        textBodyLabelView.text = "\(firstLine)\(secondLine)\(locationTextField.text!)\n\(descriptionTextView.text!)"
     }
     
     @IBAction func textFieldEditingChanged(_ sender: Any) {
-        nameLabel.text = nameTextField.text
-        locationLabel.text = locationTextField.text
-        descriptionLabelView.text = descriptionTextView.text
+        event.title = titleTextField.text!
+        titleLabel.text = titleTextField.text
+        event.eventLocation = locationTextField.text!
+        textBodyLabelView.text = "\(firstLine)\(secondLine)\(locationTextField.text!)\n\(descriptionTextView.text!)"
     }
     
-    @IBAction func segmentPressed(_ sender: UISegmentedControl) {
+    @IBAction func titleLineSegmentPressed(_ sender: UISegmentedControl) {
+        handleNumberOfLinesChange()
+    }
+    
+    @IBAction func fontSizeSegmentPressed(_ sender: UISegmentedControl) {
         updateFontSize(selection: sender.selectedSegmentIndex)
     }
     
+    @IBAction func allDaySwitchPressed(_ sender: UISwitch) {
+        handleAllDayChange()
+    }
+    
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        event.eventName =  nameTextField.text!
-        // CAM CODE below shows how to go from a Date to TimeInterval
-//        event.startInterval = startTimePicker.date.timeIntervalSince1970
-//        event.endInterval = endTimePicker.date.timeIntervalSince1970
+        event.title =  titleTextField.text!
         event.startTime = startTimePicker.date
         event.endTime = endTimePicker.date
-        event.dateString = dateLabel.text!
-        event.timeString = timeLabel.text!
+        event.body = textBodyLabelView.text!
         event.eventLocation = locationTextField.text!
         event.eventDescription = descriptionTextView.text!
+        event.allDay = allDaySwitch.isOn
+        event.numOfLines = numberOfLinesSegment.selectedSegmentIndex
         event.fontSize = fontSizeSegmentedControl.selectedSegmentIndex
 
         event.saveData { success in
@@ -232,10 +293,10 @@ extension EventDetailTableViewController {
         case (0, 0):
             return 240
         case (1, 0):
-            return 99
-        case (4, 0):
+            return 138
+        case (3, 0):
             return 37
-        case (5, 0):
+        case (4, 0):
             return 74
         default:
             return 44.0
