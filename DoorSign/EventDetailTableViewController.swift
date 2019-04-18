@@ -80,8 +80,10 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         nameTextField.text = event.eventName
         nameLabel.text = event.eventName
         // This is how you turn a TimeInterval into a Date object
-        startTimePicker.date = Date(timeIntervalSince1970: event.startInterval)
-        endTimePicker.date = Date(timeIntervalSince1970: event.endInterval)
+//        startTimePicker.date = Date(timeIntervalSince1970: event.startInterval)
+//        endTimePicker.date = Date(timeIntervalSince1970: event.endInterval)
+        startTimePicker.date = event.startTime
+        endTimePicker.date = event.endTime
         timeLabel.text = event.timeString
         dateLabel.text = event.dateString
         locationTextField.text = event.eventLocation
@@ -139,7 +141,8 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         if startDate == endDate {
             UIView.animate(withDuration: 0.25, animations: {self.locationLabel.frame.origin.y = self.originalLocationY; self.descriptionLabelView.frame.origin.y = self.originalLocationY + self.timeLabelHeight}) {_ in
                 self.timeLabel.isHidden = false;
-                self.descriptionLabelView.text = self.event.eventDescription;
+                self.locationLabel.text = self.event.eventLocation;
+                self.descriptionLabelView.text = self.event.eventDescription
             }
             dateFormatter.setLocalizedDateFormatFromTemplate("EEE MMMM d")
             dateLabel.text = dateFormatter.string(from: startTimePicker.date)
@@ -178,8 +181,10 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         event.eventName =  nameTextField.text!
         // CAM CODE below shows how to go from a Date to TimeInterval
-        event.startInterval = startTimePicker.date.timeIntervalSince1970
-        event.endInterval = endTimePicker.date.timeIntervalSince1970
+//        event.startInterval = startTimePicker.date.timeIntervalSince1970
+//        event.endInterval = endTimePicker.date.timeIntervalSince1970
+        event.startTime = startTimePicker.date
+        event.endTime = endTimePicker.date
         event.dateString = dateLabel.text!
         event.timeString = timeLabel.text!
         event.eventLocation = locationTextField.text!

@@ -12,8 +12,10 @@ import Firebase
 class Event {
     var eventName: String
     // CAM CODE
-    var startInterval: TimeInterval // same as a Double
-    var endInterval: TimeInterval // the TimeIntervals can be conerted to Date()
+//    var startInterval: TimeInterval // same as a Double
+//    var endInterval: TimeInterval // the TimeIntervals can be conerted to Date()
+    var startTime: Date
+    var endTime: Date
     var dateString: String
     var timeString: String
     var eventLocation: String
@@ -22,13 +24,13 @@ class Event {
     var documentID: String
     
     var dictionary: [String: Any] {
-        return ["eventName": eventName, "startInterval": startInterval, "endInterval": endInterval, "dateString": dateString, "timeString": timeString, "eventLocation": eventLocation, "eventDescription": eventDescription, "fontSize": fontSize]
+        return ["eventName": eventName, "startTime": Timestamp(date: startTime), "endTime": Timestamp(date: endTime), "dateString": dateString, "timeString": timeString, "eventLocation": eventLocation, "eventDescription": eventDescription, "fontSize": fontSize]
     }
     
-    init(eventName: String, startInterval: TimeInterval, endInterval: TimeInterval, dateString: String, timeString: String, eventLocation: String, eventDescription: String, fontSize: Int, documentID: String) {
+    init(eventName: String, startTime: Date, endTime: Date, dateString: String, timeString: String, eventLocation: String, eventDescription: String, fontSize: Int, documentID: String) {
         self.eventName = eventName
-        self.startInterval = startInterval
-        self.endInterval = endInterval
+        self.startTime = startTime
+        self.endTime = endTime
         self.dateString = dateString
         self.timeString = timeString
         self.eventLocation = eventLocation
@@ -38,19 +40,23 @@ class Event {
     }
     
     convenience init() {
-        self.init(eventName: "", startInterval: 0.0, endInterval: 0.0, dateString: "", timeString: "", eventLocation: "", eventDescription: "", fontSize: 0, documentID: "")
+        self.init(eventName: "", startTime: Date(), endTime: Date(), dateString: "", timeString: "", eventLocation: "", eventDescription: "", fontSize: 0, documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
         let eventName = dictionary["eventName"] as! String? ?? ""
-        let startInterval = dictionary["startInterval"] as! TimeInterval? ?? 0.0
-        let endInterval = dictionary["endInterval"] as! TimeInterval? ?? 0.0
+        // let startTime = dictionary["startTime"] as! Date? ?? Date()
+        // let endTime = dictionary["endTime"] as! Date? ?? Date()
+        let startTimeStamp = dictionary["startTime"] as! Timestamp? ?? Timestamp(date: Date())
+        let startTime = startTimeStamp.dateValue()
+        let endTimeStamp = dictionary["endTime"] as! Timestamp? ?? Timestamp(date: Date())
+        let endTime = endTimeStamp.dateValue()
         let dateString = dictionary["dateString"] as! String? ?? ""
         let timeString = dictionary["timeString"] as! String? ?? ""
         let eventLocation = dictionary["eventLocation"] as! String? ?? ""
         let eventDescription = dictionary["eventDescription"] as! String? ?? ""
         let fontSize = dictionary["fontSize"] as! Int? ?? 0
-        self.init(eventName: eventName, startInterval: startInterval, endInterval: endInterval, dateString: dateString, timeString: timeString, eventLocation: eventLocation, eventDescription: eventDescription, fontSize: fontSize, documentID: "")
+        self.init(eventName: eventName, startTime: startTime, endTime: endTime, dateString: dateString, timeString: timeString, eventLocation: eventLocation, eventDescription: eventDescription, fontSize: fontSize, documentID: "")
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.
