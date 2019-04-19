@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ScreenListViewController.swift
 //  DoorSign
 //
 //  Created by John Gallaugher on 4/16/19.
@@ -12,10 +12,10 @@ import Firebase
 import FirebaseUI
 import GoogleSignIn  // used to be called FirebaseGoogleAuthUI
 
-class ViewController: UIViewController {
+class ScreenListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var events: Events!
+    var screens: Screens!
     // declaring the authUI variable is step [2]
     var authUI: FUIAuth!
     
@@ -27,11 +27,11 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         tableView.isHidden = true
         
-        events = Events()
+        screens = Screens()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        events.loadData {
+        screens.loadData {
             self.tableView.reloadData()
         }
     }
@@ -55,15 +55,34 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowEvent" {
-            let destination = segue.destination as! EventDetailTableViewController
+        if segue.identifier == "ShowScreen" {
+            let destination = segue.destination as! ScreenLayoutViewController
             let selectedIndexPath = tableView.indexPathForSelectedRow!
-            destination.event = events.eventArray[selectedIndexPath.row]
+            destination.screen = screens.screenArray[selectedIndexPath.row]
         } else {
+            let navigationController = segue.destination as! UINavigationController
+            let destination = navigationController.viewControllers.first as! ScreenLayoutViewController
+            let selectedIndexPath = tableView.indexPathForSelectedRow!
+            destination.screen = screens.screenArray[selectedIndexPath.row]
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
                 tableView.deselectRow(at: selectedIndexPath, animated: true)
             }
         }
+    }
+    
+    func saveThenSegue(screenName: String){
+        let newScreen = Screen(screenName: screenName)
+        newScreen.saveData {success in
+            if success {
+                // I need to search screens.screenArray for newScreen.documentID
+                // then send the element at that index over to the destination somehow
+                let indexValue = self.screens.screenArray.firstIndex(where: { $0.documentID == newScreen.documentID })
+                let newIndexPath = IndexPath(row: indexValue!, section: 0)
+                self.tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .none)
+                self.performSegue(withIdentifier: "AddScreen", sender: nil)
+            } else {
+                print("😡 ERROR: Scren named \(screenName) did not save.")
+            }}
     }
     
     @IBAction func signOutPressed(_ sender: UIBarButtonItem) {
@@ -77,22 +96,31 @@ class ViewController: UIViewController {
             print("*** ERROR: Couldn't sign out")
         }
     }
+    
+    @IBAction func addScreenPressed(_ sender: UIBarButtonItem) {
+        showInputDialog(title: nil, subtitle: "Enter a name for this screen.", actionTitle: "Save", cancelTitle: "Cancel", inputPlaceholder: nil, inputKeyboardType: .default, cancelHandler: nil, actionHandler: {(input:String?) in
+            guard let screenName = input else {
+                return
+            }
+            self.saveThenSegue(screenName: screenName)
+        })
+    }
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension ScreenListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.eventArray.count
+        return screens.screenArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = events.eventArray[indexPath.row].title
+        cell.textLabel?.text = screens.screenArray[indexPath.row].screenName
         return cell
     }
 }
 
 // Name of the extension is likely the only thing that needs to change in new projects
-extension ViewController: FUIAuthDelegate {
+extension ScreenListViewController: FUIAuthDelegate {
     func application(_ app: UIApplication, open url: URL,
                      options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
@@ -131,5 +159,33 @@ extension ViewController: FUIAuthDelegate {
         logoImageView.contentMode = .scaleAspectFit // Set imageView to Aspect Fit
         loginViewController.view.addSubview(logoImageView) // Add ImageView to the login controller's main view
         return loginViewController
+    }
+}
+
+extension UIViewController {
+    func showInputDialog(title:String? = nil,
+                         subtitle:String? = nil,
+                         actionTitle:String? = "Add",
+                         cancelTitle:String? = "Cancel",
+                         inputPlaceholder:String? = nil,
+                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
+                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
+                         actionHandler: ((_ text: String?) -> Void)? = nil) {
+        
+        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
+        alert.addTextField { (textField:UITextField) in
+            textField.placeholder = inputPlaceholder
+            textField.keyboardType = inputKeyboardType
+        }
+        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { (action:UIAlertAction) in
+            guard let textField =  alert.textFields?.first else {
+                actionHandler?(nil)
+                return
+            }
+            actionHandler?(textField.text)
+        }))
+        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
