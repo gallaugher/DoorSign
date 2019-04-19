@@ -251,7 +251,7 @@ class EventDetailTableViewController: UITableViewController, UITextViewDelegate 
         event.allDay = allDaySwitch.isOn
         event.numOfLines = numberOfLinesSegment.selectedSegmentIndex
         event.fontSize = fontSizeSegmentedControl.selectedSegmentIndex
-
+        
         event.saveData { success in
             if success {
                 self.leaveViewController()

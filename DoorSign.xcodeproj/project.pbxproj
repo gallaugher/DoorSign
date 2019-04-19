@@ -24,6 +24,7 @@
 		3EE341BE2266490D00555CC4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BD2266490D00555CC4 /* Events.swift */; };
 		3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */; };
 		3EE341C6226664E300555CC4 /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* code.py */; };
+		3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */; };
 		E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		3EE341BD2266490D00555CC4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewController.swift; sourceTree = "<group>"; };
 		3EE341C5226664E300555CC4 /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = "<group>"; };
+		3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlocks.swift; sourceTree = "<group>"; };
 		7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.release.xcconfig"; sourceTree = "<group>"; };
 		8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoorSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA53D93C73CC00E6603CAA13 /* Pods-DoorSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.debug.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */,
 				3E99C9A022691B2900A07F4F /* Screens.swift */,
 				3E99C99C2269184700A07F4F /* Screen.swift */,
+				3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */,
 				3E99C99E2269186400A07F4F /* TextBlock.swift */,
 				3E8F3BFD22660F5E003B8DCC /* ScreenListViewController.swift */,
 				3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */,
@@ -293,6 +296,7 @@
 			files = (
 				3EA970FB226904F500672C4E /* ScreenLayoutViewController.swift in Sources */,
 				3E99C9A32269453000A07F4F /* Constants.swift in Sources */,
+				3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */,
 				3E99C9A122691B2900A07F4F /* Screens.swift in Sources */,
 				3EA970FF2269142F00672C4E /* TextBoxDetailTableViewController.swift in Sources */,
 				3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */,

@@ -12,8 +12,13 @@ class ScreenLayoutViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var editBlockOrderButton: UIBarButtonItem!
+    @IBOutlet weak var screenView: UIView!
+    
+    var textViewArray: [UITextView] = []
     
     var screen: Screen!
+    var textBlocks: TextBlocks!
+    let textBoxWidth: CGFloat = 270
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +26,77 @@ class ScreenLayoutViewController: UIViewController {
         tableView.dataSource = self
         
         hideDoneButtonIfNeeded()
+        textBlocks = TextBlocks()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        textBlocks.loadData(screen: screen) {
+            self.tableView.reloadData()
+            self.configureScreen()
+        }
+    }
+    
+    func configureScreen() {
+        var topOfViewFrame: CGFloat = 0
+        textViewArray = []
+        for textBlock in textBlocks.textBlocksArray {
+            let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+            let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
+            var newTextView = UITextView(frame: viewFrame)
+            newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
+            let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
+            newTextView.font = viewFont
+            newTextView.text = textBlock.blockText
+            newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
+            textViewArray.append(newTextView)
+            screenView.addSubview(newTextView) // unsure if this is needed
+            topOfViewFrame += newTextView.frame.height
+        }
+        screenView.setNeedsDisplay()
+    }
+    
+    func configureTextBlockView(textBoxView: UITextView, textBlock: TextBlock) -> UITextView {
+        // textBoxView.font = textBoxView.font!.withSize(textBlock.blockFontSize)
+        
+        textBoxView.font = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
+        //        newTextView.font = viewFont
+        
+        textBoxView.textColor = UIColor().colorWithHexString(hexString: textBlock.blockFontColor)
+        let textBlockHeight = getTextBlockHeight(textBlock: textBlock)
+        let rect = textBoxView.frame
+        textBoxView.frame = CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: textBlockHeight)
+        textBoxView.textAlignment = setAlignment(alignmentValue: textBlock.alignment)
+        textBoxView.text = textBlock.blockText
+        return textBoxView
+    }
+    
+    func getTextBlockHeight(textBlock: TextBlock) -> CGFloat {
+        switch textBlock.blockFontSize {
+        case Constants.largeFontSize:
+            return CGFloat(textBlock.numberOfLines) * Constants.largeFontLineHeight
+        case Constants.mediumFontSize:
+            return CGFloat(textBlock.numberOfLines) * Constants.mediumFontLineHeight
+        case Constants.smallFontSize:
+            return CGFloat(textBlock.numberOfLines) * Constants.smallFontLineHeight
+        default:
+            print("😡 ERROR: This textBlock.blockFontSize = \(textBlock.blockFontSize) should not have occurred ")
+            return CGFloat(textBlock.numberOfLines) * Constants.largeFontLineHeight
+        }
+    }
+    
+    func setAlignment(alignmentValue: Int) -> NSTextAlignment {
+        switch alignmentValue {
+        case 0:
+            return NSTextAlignment.left
+        case 1:
+            return NSTextAlignment.center
+        case 2:
+            return NSTextAlignment.right
+        default:
+            print("😡 ERROR: This fontAlignmentSegmentedControl = \(alignmentValue) should not have occurred ")
+            return NSTextAlignment.left
+        }
+    }
     func hideDoneButtonIfNeeded(){
         // Hide done button by setting title to an empty string if
         // you are not adding a newn record.
@@ -37,7 +111,7 @@ class ScreenLayoutViewController: UIViewController {
             let destination = segue.destination as! TextBoxDetailTableViewController
             destination.screen = screen
             let selectedIndex = tableView.indexPathForSelectedRow!
-            destination.textBlockIndex = selectedIndex.row
+            destination.textBlock = textBlocks.textBlocksArray[selectedIndex.row]
         } else {
             let navigationController = segue.destination as! UINavigationController
             let destination = navigationController.viewControllers.first as! TextBoxDetailTableViewController
@@ -58,20 +132,22 @@ class ScreenLayoutViewController: UIViewController {
     }
     
     @IBAction func editBlockOrderPressed(_ sender: UIBarButtonItem) {
+        print("Stop Here")
     }
     
     @IBAction func addBlockTextPressed(_ sender: UIBarButtonItem) {
     }
 }
 
+
 extension ScreenLayoutViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return screen.textBlockArray.count
+        return textBlocks.textBlocksArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = screen.textBlockArray[indexPath.row].blockText
+        cell.textLabel?.text = textBlocks.textBlocksArray[indexPath.row].blockText
         return cell
     }
 }

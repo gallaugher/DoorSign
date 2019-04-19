@@ -11,7 +11,6 @@ import Firebase
 
 class Screen {
     var screenName: String
-    var textBlockArray: [TextBlock] = []
     var documentID: String
     var db: Firestore!
     
@@ -67,23 +66,6 @@ class Screen {
                     completed(true)
                 }
             }
-        }
-    }
-    
-    func loadData(completed: @escaping () -> ())  {
-        db.collection("textBlocks").addSnapshotListener { (querySnapshot, error) in
-            guard error == nil else {
-                print("*** ERROR: adding the snapshot listener \(error!.localizedDescription)")
-                return completed()
-            }
-            self.textBlockArray = []
-            // there are querySnapshot!.documents.count documents in the screens snapshot
-            for document in querySnapshot!.documents {
-                let textBlock = TextBlock(dictionary: document.data())
-                textBlock.documentID = document.documentID
-                self.textBlockArray.append(textBlock)
-            }
-            completed()
         }
     }
 }
