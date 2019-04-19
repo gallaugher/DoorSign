@@ -14,6 +14,8 @@ class ScreenLayoutViewController: UIViewController {
     @IBOutlet weak var editBlockOrderButton: UIBarButtonItem!
     @IBOutlet weak var screenView: UIView!
     
+    @IBOutlet var textBlockViews: [UITextView]! = []
+    
     var textViewArray: [UITextView] = []
     
     var screen: Screen!
@@ -36,23 +38,45 @@ class ScreenLayoutViewController: UIViewController {
         }
     }
     
+    func setUpTextBlock(textBlock: TextBlock, topOfViewFrame: CGFloat) -> CGFloat {
+        let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+        let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
+        var newTextView = UITextView(frame: viewFrame)
+        newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
+        let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
+        newTextView.font = viewFont
+        newTextView.text = textBlock.blockText
+        newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
+        textBlockViews.append(newTextView)
+        screenView.addSubview(newTextView)
+        return topOfViewFrame + textBlockHeight
+    }
+    
     func configureScreen() {
-        var topOfViewFrame: CGFloat = 0
-        textViewArray = []
-        for textBlock in textBlocks.textBlocksArray {
-            let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
-            let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
-            var newTextView = UITextView(frame: viewFrame)
-            newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
-            let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
-            newTextView.font = viewFont
-            newTextView.text = textBlock.blockText
-            newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
-            textViewArray.append(newTextView)
-            screenView.addSubview(newTextView) // unsure if this is needed
-            topOfViewFrame += newTextView.frame.height
+        // textViewArray = []
+        textBlockViews = []
+        for subview in screenView.subviews {
+            if subview is UITextView {
+                subview.removeFromSuperview()
+            }
         }
-        screenView.setNeedsDisplay()
+        var topOfViewFrame: CGFloat = 0
+        
+        for textBlock in textBlocks.textBlocksArray {
+            topOfViewFrame = setUpTextBlock(textBlock: textBlock, topOfViewFrame: topOfViewFrame)
+//            let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+//            let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
+//            var newTextView = UITextView(frame: viewFrame)
+//            newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
+//            let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
+//            newTextView.font = viewFont
+//            newTextView.text = textBlock.blockText
+//            newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
+//            textViewArray.append(newTextView)
+//            screenView.addSubview(newTextView)
+//            topOfViewFrame += newTextView.frame.height
+        }
+        // screenView.setNeedsDisplay()
     }
     
     func configureTextBlockView(textBoxView: UITextView, textBlock: TextBlock) -> UITextView {
@@ -110,12 +134,14 @@ class ScreenLayoutViewController: UIViewController {
         if segue.identifier == "ShowTextBlock" {
             let destination = segue.destination as! TextBoxDetailTableViewController
             destination.screen = screen
+            destination.textBlocks = textBlocks
             let selectedIndex = tableView.indexPathForSelectedRow!
             destination.textBlock = textBlocks.textBlocksArray[selectedIndex.row]
         } else {
             let navigationController = segue.destination as! UINavigationController
             let destination = navigationController.viewControllers.first as! TextBoxDetailTableViewController
             destination.screen = screen
+            destination.textBlocks = textBlocks
             if let selectedIndex = tableView.indexPathForSelectedRow {
                 tableView.deselectRow(at: selectedIndex, animated: true)
             }

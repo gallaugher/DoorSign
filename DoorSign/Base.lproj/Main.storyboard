@@ -264,23 +264,11 @@
                                                                 <constraint firstAttribute="width" constant="36" id="AHS-ek-Ek1"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Change Me" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwB-3V-yYk">
-                                                            <rect key="frame" x="25" y="0.0" width="270" height="68"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="270" id="hdj-vV-9o5"/>
-                                                                <constraint firstAttribute="height" constant="68" id="jDi-3j-UjJ"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                        </textView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="U17-dQ-p7X" secondAttribute="trailing" constant="8" id="2ba-ez-tNm"/>
                                                         <constraint firstItem="WJy-3o-tmC" firstAttribute="leading" secondItem="zcx-2C-7mw" secondAttribute="leading" constant="8" id="2cY-NI-guY"/>
-                                                        <constraint firstItem="kwB-3V-yYk" firstAttribute="centerX" secondItem="zcx-2C-7mw" secondAttribute="centerX" id="QBn-cI-fMZ"/>
-                                                        <constraint firstItem="kwB-3V-yYk" firstAttribute="top" secondItem="zcx-2C-7mw" secondAttribute="top" id="QeO-xV-vKg"/>
                                                         <constraint firstAttribute="trailing" secondItem="49j-aw-NmC" secondAttribute="trailing" constant="5" id="brK-ec-OrV"/>
                                                         <constraint firstAttribute="height" constant="240" id="jbt-Cz-Gwa"/>
                                                         <constraint firstItem="WJy-3o-tmC" firstAttribute="top" secondItem="zcx-2C-7mw" secondAttribute="top" constant="95" id="k4q-fz-poo"/>
@@ -499,7 +487,6 @@
                         <outlet property="saveButton" destination="hY3-eE-fs7" id="qby-Hi-1Mk"/>
                         <outlet property="screenView" destination="zcx-2C-7mw" id="7Y7-bH-jgQ"/>
                         <outlet property="textBoxView" destination="YY7-SP-QLp" id="Sd9-s5-VNU"/>
-                        <outlet property="topTextView" destination="kwB-3V-yYk" id="M2Q-VE-TTw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VOD-cl-eWs" userLabel="First Responder" sceneMemberID="firstResponder"/>

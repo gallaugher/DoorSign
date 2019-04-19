@@ -10,7 +10,6 @@ import UIKit
 
 class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegate {
     
-    @IBOutlet weak var topTextView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var screenView: UIView!
     @IBOutlet weak var fontSizeSegmentedControl: UISegmentedControl!
@@ -19,10 +18,11 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
     @IBOutlet weak var colorTextField: UITextField!
     @IBOutlet weak var lineSizeLabel: UILabel!
     
-//    @IBOutlet var textBlockViews: [UITextView]! = []
+    @IBOutlet var textBlockViews: [UITextView]! = []
     
     var screen: Screen!
     var textBlock: TextBlock!
+    var textBlocks: TextBlocks!
     var textBlockIndex: Int!
     let screenCellIndexPath = IndexPath(row: 0, section: 0)
     let linesAndColorCellIndexPath = IndexPath(row: 0, section: 1)
@@ -53,21 +53,19 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
         configureUserInterface()
     }
     
-//    func setUpTextBlock(index: Int, topOfViewFrame: CGFloat) -> CGFloat {
-//        let textBlock = screen.textBlockArray[index]
-//        let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
-//        let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
-//        var newTextView = UITextView(frame: viewFrame)
-//        newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
-//        let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
-//        newTextView.font = viewFont
-//        newTextView.text = screen.textBlockArray[index].blockText
-//        newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
-//        textBlockViews.append(newTextView)
-//        screenView.addSubview(newTextView) // unsure if this is needed
-//
-//        return topOfViewFrame + textBlockHeight
-//    }
+    func setUpTextBlock(textBlock: TextBlock, topOfViewFrame: CGFloat) -> CGFloat {
+        let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+        let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
+        var newTextView = UITextView(frame: viewFrame)
+        newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
+        let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
+        newTextView.font = viewFont
+        newTextView.text = textBlock.blockText
+        newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
+        textBlockViews.append(newTextView)
+        screenView.addSubview(newTextView)
+        return topOfViewFrame + textBlockHeight
+    }
     
     func configureFontSizeControl() {
         switch textBlock.blockFontSize {
@@ -83,25 +81,33 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
     }
     
     func configureUserInterface() {
-//        textBlockViews = []
-//        screenView.backgroundColor = UIColor.white
-//        screenView.setNeedsDisplay()
-//
-//        var topOfViewFrame: CGFloat = 0
-//
-//        for index in 0..<screen.textBlockArray.count {
+        textBlockViews = []
+        // Clear out old UITextView subviews. setting array to empty isn't enough to get rid of residual data structures
+        for subview in screenView.subviews {
+            if subview is UITextView {
+                subview.removeFromSuperview()
+            }
+        }
+
+        var topOfViewFrame: CGFloat = 0
+
+//        for index in 0..<textBlocks.textBlocksArray.count {
 //            topOfViewFrame = setUpTextBlock(index: index, topOfViewFrame: topOfViewFrame)
 //        }
+        
+        for textBlock in textBlocks.textBlocksArray {
+            topOfViewFrame = setUpTextBlock(textBlock: textBlock, topOfViewFrame: topOfViewFrame)
+        }
         
         lineSizeLabel.text = "\(textBlock.numberOfLines) line\(textBlock.numberOfLines>1 ? "s" : "")"
         fontAlignmentSegmentedControl.selectedSegmentIndex = textBlock.alignment
         configureFontSizeControl()
         textBoxView = configureTextBlockView(textBoxView: textBoxView, textBlock: textBlock)
         textBoxView.text = textBlock.blockText
-        topTextView = configureTextBlockView(textBoxView: topTextView, textBlock: textBlock)
-        topTextView.text = textBlock.blockText
+//        topTextView = configureTextBlockView(textBoxView: topTextView, textBlock: textBlock)
+//        topTextView.text = textBlock.blockText
         
-        print("*** just updated topTextView.frame.height to \(topTextView.frame.height)")
+//        print("*** just updated topTextView.frame.height to \(topTextView.frame.height)")
         
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -122,10 +128,10 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
     }
     
     func configureTextBlockView(textBoxView: UITextView, textBlock: TextBlock) -> UITextView {
-        // textBoxView.font = textBoxView.font!.withSize(textBlock.blockFontSize)
+        textBoxView.font = textBoxView.font!.withSize(textBlock.blockFontSize)
         
         textBoxView.font = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
-        //        newTextView.font = viewFont
+        // newTextView.font = textBoxView.font
         
         textBoxView.textColor = UIColor().colorWithHexString(hexString: textBlock.blockFontColor)
         let textBlockHeight = getTextBlockHeight(textBlock: textBlock)
@@ -151,7 +157,7 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
     }
     
     func textViewDidChange(_ textView: UITextView) { //Handle the text changes here
-        // screen.textBlockArray[textBlockIndex].blockText = textView.text!
+        textBlocks.textBlocksArray[textBlockIndex].blockText = textView.text!
         textBlock.blockText = textView.text!
         configureUserInterface()
     }
