@@ -56,15 +56,14 @@ class ScreenListViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowScreen" {
-            let destination = segue.destination as! ScreenLayoutViewController
+            let destination = segue.destination as! ScreenLayoutTableViewController
             let selectedIndexPath = tableView.indexPathForSelectedRow!
             destination.screen = screens.screenArray[selectedIndexPath.row]
         } else {
             let navigationController = segue.destination as! UINavigationController
-            let destination = navigationController.viewControllers.first as! ScreenLayoutViewController
-            let selectedIndexPath = tableView.indexPathForSelectedRow!
-            destination.screen = screens.screenArray[selectedIndexPath.row]
+            let destination = navigationController.viewControllers.first as! ScreenLayoutTableViewController
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                destination.screen = screens.screenArray[selectedIndexPath.row]
                 tableView.deselectRow(at: selectedIndexPath, animated: true)
             }
         }

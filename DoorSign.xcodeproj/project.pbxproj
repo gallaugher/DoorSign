@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */; };
+		3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */; };
 		3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */; };
 		3E8F3BFE22660F5E003B8DCC /* ScreenListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFD22660F5E003B8DCC /* ScreenListViewController.swift */; };
 		3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFF22660F5E003B8DCC /* Main.storyboard */; };
@@ -20,9 +21,6 @@
 		3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */; };
 		3EA970FB226904F500672C4E /* ScreenLayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */; };
 		3EA970FF2269142F00672C4E /* TextBoxDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */; };
-		3EE341BC2266482500555CC4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BB2266482500555CC4 /* Event.swift */; };
-		3EE341BE2266490D00555CC4 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341BD2266490D00555CC4 /* Events.swift */; };
-		3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */; };
 		3EE341C6226664E300555CC4 /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* code.py */; };
 		3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */; };
 		E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */; };
@@ -30,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutTableViewController.swift; sourceTree = "<group>"; };
 		3E8F3BF822660F5E003B8DCC /* DoorSign.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoorSign.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E8F3BFD22660F5E003B8DCC /* ScreenListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenListViewController.swift; sourceTree = "<group>"; };
@@ -44,9 +43,6 @@
 		3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+colorWithHexString.swift"; sourceTree = "<group>"; };
 		3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutViewController.swift; sourceTree = "<group>"; };
 		3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxDetailTableViewController.swift; sourceTree = "<group>"; };
-		3EE341BB2266482500555CC4 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		3EE341BD2266490D00555CC4 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
-		3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewController.swift; sourceTree = "<group>"; };
 		3EE341C5226664E300555CC4 /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = "<group>"; };
 		3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlocks.swift; sourceTree = "<group>"; };
 		7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.release.xcconfig"; sourceTree = "<group>"; };
@@ -106,14 +102,12 @@
 			children = (
 				3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */,
 				3E99C9A22269453000A07F4F /* Constants.swift */,
-				3EE341BB2266482500555CC4 /* Event.swift */,
-				3EE341BD2266490D00555CC4 /* Events.swift */,
-				3EE341C1226649E700555CC4 /* EventDetailTableViewController.swift */,
 				3E99C9A022691B2900A07F4F /* Screens.swift */,
 				3E99C99C2269184700A07F4F /* Screen.swift */,
 				3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */,
 				3E99C99E2269186400A07F4F /* TextBlock.swift */,
 				3E8F3BFD22660F5E003B8DCC /* ScreenListViewController.swift */,
+				3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */,
 				3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */,
 				3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */,
 				3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */,
@@ -294,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */,
 				3EA970FB226904F500672C4E /* ScreenLayoutViewController.swift in Sources */,
 				3E99C9A32269453000A07F4F /* Constants.swift in Sources */,
 				3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */,
@@ -301,10 +296,7 @@
 				3EA970FF2269142F00672C4E /* TextBoxDetailTableViewController.swift in Sources */,
 				3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */,
 				3E99C99F2269186400A07F4F /* TextBlock.swift in Sources */,
-				3EE341C2226649E700555CC4 /* EventDetailTableViewController.swift in Sources */,
-				3EE341BE2266490D00555CC4 /* Events.swift in Sources */,
 				3E8F3BFE22660F5E003B8DCC /* ScreenListViewController.swift in Sources */,
-				3EE341BC2266482500555CC4 /* Event.swift in Sources */,
 				3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */,
 				3E99C99D2269184700A07F4F /* Screen.swift in Sources */,
 			);

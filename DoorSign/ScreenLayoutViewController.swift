@@ -116,6 +116,7 @@ class ScreenLayoutViewController: UIViewController {
             return NSTextAlignment.left
         }
     }
+    
     func hideDoneButtonIfNeeded(){
         // Hide done button by setting title to an empty string if
         // you are not adding a newn record.
