@@ -17,6 +17,7 @@ class ScreenLayoutViewController: UIViewController {
     @IBOutlet var textBlockViews: [UITextView]! = []
     
     var textViewArray: [UITextView] = []
+    let reduceBlockSpaceBy: CGFloat = 5
     
     var screen: Screen!
     var textBlocks: TextBlocks!
@@ -33,13 +34,14 @@ class ScreenLayoutViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         textBlocks.loadData(screen: screen) {
+            self.textBlocks.textBlocksArray.sort(by: { $0.orderPosition < $1.orderPosition })
             self.tableView.reloadData()
             self.configureScreen()
         }
     }
     
     func setUpTextBlock(textBlock: TextBlock, topOfViewFrame: CGFloat) -> CGFloat {
-        let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+        let textBlockHeight = getTextBlockHeight(textBlock: textBlock)
         let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
         var newTextView = UITextView(frame: viewFrame)
         newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
@@ -47,9 +49,13 @@ class ScreenLayoutViewController: UIViewController {
         newTextView.font = viewFont
         newTextView.text = textBlock.blockText
         newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
+        newTextView.backgroundColor = UIColor.clear
+        
+        let properHeight = newTextView.contentSize.height
+        let newFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: properHeight)
         textBlockViews.append(newTextView)
         screenView.addSubview(newTextView)
-        return topOfViewFrame + textBlockHeight
+        return topOfViewFrame + textBlockHeight - reduceBlockSpaceBy
     }
     
     func configureScreen() {
@@ -64,17 +70,6 @@ class ScreenLayoutViewController: UIViewController {
         
         for textBlock in textBlocks.textBlocksArray {
             topOfViewFrame = setUpTextBlock(textBlock: textBlock, topOfViewFrame: topOfViewFrame)
-//            let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
-//            let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
-//            var newTextView = UITextView(frame: viewFrame)
-//            newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
-//            let viewFont = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
-//            newTextView.font = viewFont
-//            newTextView.text = textBlock.blockText
-//            newTextView = configureTextBlockView(textBoxView: newTextView, textBlock: textBlock)
-//            textViewArray.append(newTextView)
-//            screenView.addSubview(newTextView)
-//            topOfViewFrame += newTextView.frame.height
         }
         // screenView.setNeedsDisplay()
     }

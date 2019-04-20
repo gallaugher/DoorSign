@@ -48,13 +48,17 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
         
         if textBlock == nil {
             textBlock = TextBlock()
+            textBlockIndex = textBlocks.textBlocksArray.count
+            textBlock.orderPosition = textBlocks.textBlocksArray.count
+            textBlocks.textBlocksArray.append(textBlock)
         }
         
         configureUserInterface()
     }
     
     func setUpTextBlock(textBlock: TextBlock, topOfViewFrame: CGFloat) -> CGFloat {
-        let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+        // let textBlockHeight = CGFloat(textBlock.numberOfLines) * textBlock.blockFontSize
+        let textBlockHeight = getTextBlockHeight(textBlock: textBlock)
         let viewFrame = CGRect(x: 0, y: topOfViewFrame, width: textBoxWidth, height: textBlockHeight)
         var newTextView = UITextView(frame: viewFrame)
         newTextView.center = CGPoint(x: screenView.frame.width/2, y: topOfViewFrame + (textBlockHeight/2))
@@ -90,11 +94,6 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
         }
 
         var topOfViewFrame: CGFloat = 0
-
-//        for index in 0..<textBlocks.textBlocksArray.count {
-//            topOfViewFrame = setUpTextBlock(index: index, topOfViewFrame: topOfViewFrame)
-//        }
-        
         for textBlock in textBlocks.textBlocksArray {
             topOfViewFrame = setUpTextBlock(textBlock: textBlock, topOfViewFrame: topOfViewFrame)
         }
@@ -104,11 +103,6 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
         configureFontSizeControl()
         textBoxView = configureTextBlockView(textBoxView: textBoxView, textBlock: textBlock)
         textBoxView.text = textBlock.blockText
-//        topTextView = configureTextBlockView(textBoxView: topTextView, textBlock: textBlock)
-//        topTextView.text = textBlock.blockText
-        
-//        print("*** just updated topTextView.frame.height to \(topTextView.frame.height)")
-        
         tableView.beginUpdates()
         tableView.endUpdates()
     }
@@ -131,13 +125,12 @@ class TextBoxDetailTableViewController: UITableViewController, UITextViewDelegat
         textBoxView.font = textBoxView.font!.withSize(textBlock.blockFontSize)
         
         textBoxView.font = UIFont(name: "AvenirNextCondensed-Medium", size: textBlock.blockFontSize)
-        // newTextView.font = textBoxView.font
-        
         textBoxView.textColor = UIColor().colorWithHexString(hexString: textBlock.blockFontColor)
         let textBlockHeight = getTextBlockHeight(textBlock: textBlock)
         let rect = textBoxView.frame
         textBoxView.frame = CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: textBlockHeight)
-        textBoxView.textAlignment = setAlignment(alignmentValue: fontAlignmentSegmentedControl.selectedSegmentIndex)
+        // textBoxView.textAlignment = setAlignment(alignmentValue: fontAlignmentSegmentedControl.selectedSegmentIndex)
+        textBoxView.textAlignment = setAlignment(alignmentValue: textBlock.alignment)
         textBoxView.text = textBlock.blockText
         return textBoxView
     }
