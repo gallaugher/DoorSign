@@ -15,11 +15,15 @@ import GoogleSignIn  // used to be called FirebaseGoogleAuthUI
 class ScreenListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
-    var screens: Screens!
-    // declaring the authUI variable is step [2]
+    var newElements: [Element] = []
+    var elements: Elements!
+    let indentBase = 26 // previously 41
+
+    // declaring the authUI variable is step
     var authUI: FUIAuth!
     
     override func viewDidLoad() {
+        
         // initializing the authUI var and setting the delegate are step [3]
         authUI = FUIAuth.defaultAuthUI()
         authUI?.delegate = self
@@ -27,12 +31,52 @@ class ScreenListViewController: UIViewController {
         tableView.dataSource = self
         tableView.isHidden = true
         
-        screens = Screens()
+        elements = Elements()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        screens.loadData {
-            self.tableView.reloadData()
+        elements.loadData {
+            
+            if self.elements.elementArray.isEmpty {
+                let homeElement = Element(elementName: "Home", elementType: "Home", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), documentID: "")
+                //Element(name: "Home", id: "Home", type: "Home", parentID: "", hierarchyLevel: 0, chidrenIDs: [])
+                homeElement.saveData(completed: { (success) in
+                    if !success { // if failed
+                        print("😡 ERROR: could not save a Home element.")
+                    }
+                    self.elements.loadData {
+                        // self.sortArrayRowsIntoHierarchy()
+                        self.tableView.reloadData()
+                        self.performSegue(withIdentifier: "AddScreen", sender: nil)
+                    }
+                })
+            } else {
+                self.elements.loadData {
+                    self.newElements = []
+                    guard let home = self.elements.elementArray.first(where: {$0.elementType == "Home"}) else {
+                        print("ERROR: There was a problem finding the 'Home' element")
+                        return
+                    }
+                    self.sortElements(element: home)
+                    self.elements.elementArray = self.newElements
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func sortElements(element: Element) {
+        
+        print("In sortElements. element.elementName = \(element.elementName), elements.elementArray.count = \(elements.elementArray.count) newElements.count = \(newElements.count)")
+        
+        newElements.append(element)
+        
+        if !element.childrenIDs.isEmpty { // if there is at least one child for this element
+            for childID in element.childrenIDs { // loop through all children
+                if let child = elements.elementArray.first(where: {$0.documentID == childID}) {
+                    sortElements(element: child ) // and sort its children, if any
+                }
+            }
         }
     }
     
@@ -58,30 +102,12 @@ class ScreenListViewController: UIViewController {
         if segue.identifier == "ShowScreen" {
             let destination = segue.destination as! ScreenLayoutTableViewController
             let selectedIndexPath = tableView.indexPathForSelectedRow!
-            destination.screen = screens.screenArray[selectedIndexPath.row]
-        } else {
+            destination.element = elements.elementArray[selectedIndexPath.row]
+        } else { // pass the last element - we'll sort them when they're back. No need to worry about deselecting
             let navigationController = segue.destination as! UINavigationController
             let destination = navigationController.viewControllers.first as! ScreenLayoutTableViewController
-            if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                destination.screen = screens.screenArray[selectedIndexPath.row]
-                tableView.deselectRow(at: selectedIndexPath, animated: true)
-            }
+            destination.element = elements.elementArray.last
         }
-    }
-    
-    func saveThenSegue(screenName: String){
-        let newScreen = Screen(screenName: screenName)
-        newScreen.saveData {success in
-            if success {
-                // I need to search screens.screenArray for newScreen.documentID
-                // then send the element at that index over to the destination somehow
-                let indexValue = self.screens.screenArray.firstIndex(where: { $0.documentID == newScreen.documentID })
-                let newIndexPath = IndexPath(row: indexValue!, section: 0)
-                self.tableView.selectRow(at: newIndexPath, animated: true, scrollPosition: .none)
-                self.performSegue(withIdentifier: "AddScreen", sender: nil)
-            } else {
-                print("😡 ERROR: Scren named \(screenName) did not save.")
-            }}
     }
     
     @IBAction func signOutPressed(_ sender: UIBarButtonItem) {
@@ -95,26 +121,67 @@ class ScreenListViewController: UIViewController {
             print("*** ERROR: Couldn't sign out")
         }
     }
-    
-    @IBAction func addScreenPressed(_ sender: UIBarButtonItem) {
-        showInputDialog(title: nil, subtitle: "Enter a name for this screen.", actionTitle: "Save", cancelTitle: "Cancel", inputPlaceholder: nil, inputKeyboardType: .default, cancelHandler: nil, actionHandler: {(input:String?) in
-            guard let screenName = input else {
-                return
-            }
-            self.saveThenSegue(screenName: screenName)
-        })
-    }
 }
 
 extension ScreenListViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return screens.screenArray.count
+        return elements.elementArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = screens.screenArray[indexPath.row].screenName
-        return cell
+        switch elements.elementArray[indexPath.row].elementType {
+        case "Home":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeTableViewCell
+            cell.delegate = self
+            cell.indexPath = indexPath
+            //cell.childrenLabel.text = "\(elements[indexPath.row].chidrenIDs)"
+            return cell
+        case "Button":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonTableViewCell
+            cell.delegate = self
+            cell.indexPath = indexPath
+            var newRect = cell.indentView.frame
+            // now change x value & reassign to indentview
+            let indentAmount = CGFloat(elements.elementArray[indexPath.row].hierarchyLevel*indentBase)
+            newRect = CGRect(x: indentAmount, y: newRect.origin.y, width: newRect.width, height: newRect.height)
+            UIView.animate(withDuration: 0.5, animations: {cell.indentView.frame = newRect})
+            print("*** Button \(elements.elementArray[indexPath.row].elementName) has a hierarchy level \(elements.elementArray[indexPath.row].hierarchyLevel)")
+            print(">>> indenting button view \(indentAmount)")
+            cell.button.setTitle(elements.elementArray[indexPath.row].elementName, for: .normal)
+            // cell.childrenLabel.text = "\(elements[indexPath.row].chidrenIDs)"
+            return cell
+        case "Page":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PageCell", for: indexPath) as! PageTableViewCell
+            // cell.pageName.text = elements[indexPath.row].name
+            cell.delegate = self
+            cell.indexPath = indexPath
+            var newRect = cell.indentView.frame
+            // now change x value & reassign to indentview
+            let indentAmount = CGFloat(elements.elementArray[indexPath.row].hierarchyLevel*indentBase)
+            newRect = CGRect(x: indentAmount, y: newRect.origin.y, width: newRect.width, height: newRect.height)
+            UIView.animate(withDuration: 0.5, animations: {cell.indentView.frame = newRect})
+            print("PPP Page \(elements.elementArray[indexPath.row].elementName) has a hierarchy level \(elements.elementArray[indexPath.row].hierarchyLevel)")
+            print(">>> indenting page view \(indentAmount)")
+            // cell.childrenLabel.text = "\(elements[indexPath.row].chidrenIDs)"
+            // if parent has multiple children then <> icons, else return icon
+            let parentIndex = elements.elementArray.firstIndex(where: {$0.documentID == elements.elementArray[indexPath.row].parentID})
+            if let parentIndex = parentIndex {
+                if elements.elementArray[parentIndex].childrenIDs.count > 1 {
+                    cell.pageIcon.image = UIImage(named:  "pageGroup")
+                } else {
+                    cell.pageIcon.image = UIImage(named:  "singlePage")
+                }
+            }
+            return cell
+        default:
+            print("*** ERROR: cellForRowAt had incorrect case.")
+            return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(">> Selected row at indexPath.row: \(indexPath.row), with hierarchy \(elements.elementArray[indexPath.row].hierarchyLevel) <<")
     }
 }
 
@@ -161,30 +228,81 @@ extension ScreenListViewController: FUIAuthDelegate {
     }
 }
 
-extension UIViewController {
-    func showInputDialog(title:String? = nil,
-                         subtitle:String? = nil,
-                         actionTitle:String? = "Add",
-                         cancelTitle:String? = "Cancel",
-                         inputPlaceholder:String? = nil,
-                         inputKeyboardType:UIKeyboardType = UIKeyboardType.default,
-                         cancelHandler: ((UIAlertAction) -> Swift.Void)? = nil,
-                         actionHandler: ((_ text: String?) -> Void)? = nil) {
+extension ScreenListViewController: PlusAndDisclosureDelegate {
+    func addAButtonAndPage(buttonName: String, indexPath: IndexPath) {
         
-        let alert = UIAlertController(title: title, message: subtitle, preferredStyle: .alert)
-        alert.addTextField { (textField:UITextField) in
-            textField.placeholder = inputPlaceholder
-            textField.keyboardType = inputKeyboardType
-        }
-        alert.addAction(UIAlertAction(title: actionTitle, style: .default, handler: { (action:UIAlertAction) in
-            guard let textField =  alert.textFields?.first else {
-                actionHandler?(nil)
-                return
+        let newButtonID = UUID().uuidString
+        let newPageID = UUID().uuidString
+        let newButton = Element(elementName: buttonName, elementType: "Button", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [newPageID], documentID: newButtonID)
+        let newPage = Element(elementName: buttonName, elementType: "Page", parentID: newButtonID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+2, childrenIDs: [String](), documentID: newPageID)
+        let parent = elements.elementArray[indexPath.row]
+        parent.childrenIDs.append(newButtonID)
+        parent.saveData { (success) in
+            newButton.saveData { (success) in
+                guard success else {
+                    print("😡 ERROR: saving a newButton named \(buttonName)")
+                    return
+                }
+                newPage.saveData { (success) in
+                    self.elements.elementArray[indexPath.row].childrenIDs.append(newButtonID)
+                    self.elements.elementArray.append(newButton)
+                    self.elements.elementArray.append(newPage)
+                    let selectedIndexPath = IndexPath(row: indexPath.row, section: indexPath.section)
+                    self.tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+                    self.performSegue(withIdentifier: "AddScreen", sender: nil)
+                }
             }
-            actionHandler?(textField.text)
-        }))
-        alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelHandler))
+        }
+    }
+    
+    func addPage(indexPath: IndexPath) {
+        let newPageID = UUID().uuidString
+        let newPage = Element(elementName: elements.elementArray[indexPath.row].elementName, elementType: "Page", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [String](), documentID: newPageID)
         
-        self.present(alert, animated: true, completion: nil)
+        let parent = elements.elementArray[indexPath.row]
+        parent.childrenIDs.append(newPageID)
+        parent.saveData { (success) in
+            
+            newPage.saveData { (success) in
+                self.elements.elementArray[indexPath.row].childrenIDs.append(newPageID)
+                self.elements.elementArray.append(newPage)
+                
+                let selectedIndexPath = IndexPath(row: indexPath.row, section: indexPath.section)
+                self.tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+                self.performSegue(withIdentifier: "AddScreen", sender: nil)
+            }
+        }
+    }
+    
+    
+    func didTapPlusButton(at indexPath: IndexPath) {
+        switch elements.elementArray[indexPath.row].elementType {
+        case "Page", "Home":
+            showInputDialog(title: nil,
+                            message: "Open new page with a button named:",
+                            actionTitle: "Create Button",
+                            cancelTitle: "Cancel",
+                            inputPlaceholder: nil,
+                            inputKeyboardType: .default,
+                            actionHandler: {(input:String?) in
+                                guard let screenName = input else {
+                                    return
+                                }
+                                self.addAButtonAndPage(buttonName: screenName, indexPath: indexPath)},
+                            cancelHandler: nil)
+        case "Button":
+            showTwoButtonAlert(title: nil,
+                               message: "Create a new page from button \(elements.elementArray[indexPath.row].elementName):",
+                actionTitle: "Create Page",
+                cancelTitle: "Cancel",
+                actionHandler: {_ in self.addPage(indexPath: indexPath)},
+                cancelHandler: nil)
+        default:
+            print("ERROR in default case of didTapPlusButton")
+        }
+    }
+    
+    func didTapDisclosure(at indexPath: IndexPath) {
+        print("*** You Tapped the Disclosure Button at \(indexPath.row)")
     }
 }

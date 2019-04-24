@@ -17,11 +17,11 @@ class TextBlocks {
         db = Firestore.firestore()
     }
     
-    func loadData(screen: Screen, completed: @escaping () -> ())  {
-        guard screen.documentID != "" else {
+    func loadData(element: Element, completed: @escaping () -> ())  {
+        guard element.documentID != "" else {
             return
         }
-        db.collection("screens").document(screen.documentID).collection("textblocks").addSnapshotListener { (querySnapshot, error) in
+        db.collection("elements").document(element.documentID).collection("textblocks").addSnapshotListener { (querySnapshot, error) in
             guard error == nil else {
                 print("*** ERROR: adding the snapshot listener \(error!.localizedDescription)")
                 return completed()
@@ -38,10 +38,10 @@ class TextBlocks {
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.
-    func saveData(screen: Screen, completed: @escaping (Bool) -> ()) {
+    func saveData(element: Element, completed: @escaping (Bool) -> ()) {
         var allSaved = true
         for textBlock in self.textBlocksArray {
-            textBlock.saveData(screen: screen) { (success) in
+            textBlock.saveData(element: element) { (success) in
                 if !success {
                     allSaved = false
                 }

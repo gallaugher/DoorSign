@@ -22,24 +22,162 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="Uim-tO-jeg" style="IBUITableViewCellStyleDefault" id="1NI-1d-qje">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeCell" id="60a-oo-EKk" customClass="HomeTableViewCell" customModule="DoorSign" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1NI-1d-qje" id="Ge3-0K-DpV">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="60a-oo-EKk" id="WRx-Qy-31k">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Uim-tO-jeg">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="home" translatesAutoresizingMaskIntoConstraints="NO" id="ML0-0F-Ugm">
+                                                    <rect key="frame" x="11" y="6" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zg6-d3-KIe">
+                                                    <rect key="frame" x="49" y="11" width="46" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="xYT-8Y-qva">
+                                                    <rect key="frame" x="250" y="7" width="65" height="30"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UQ1-0h-gQH">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="30" id="A38-8m-2Y0"/>
+                                                                <constraint firstAttribute="height" constant="30" id="iCq-9K-duy"/>
+                                                            </constraints>
+                                                            <state key="normal" image="plusImage"/>
+                                                            <connections>
+                                                                <action selector="plusButtonPressed:" destination="60a-oo-EKk" eventType="touchUpInside" id="8hL-oB-qv7"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUC-FL-Zof">
+                                                            <rect key="frame" x="35" y="0.0" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="30" id="aLy-O8-O6O"/>
+                                                                <constraint firstAttribute="height" constant="30" id="dhj-ie-TKE"/>
+                                                            </constraints>
+                                                            <state key="normal" image="disclosureImage"/>
+                                                            <connections>
+                                                                <action selector="disclosureButtonPressed:" destination="60a-oo-EKk" eventType="touchUpInside" id="t6A-2Q-JE6"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xYT-8Y-qva" firstAttribute="centerY" secondItem="WRx-Qy-31k" secondAttribute="centerY" id="D1J-RV-VJ8"/>
+                                                <constraint firstAttribute="trailing" secondItem="xYT-8Y-qva" secondAttribute="trailing" constant="5" id="KTs-YQ-sFC"/>
+                                                <constraint firstAttribute="trailing" secondItem="xYT-8Y-qva" secondAttribute="trailing" constant="5" id="XRg-TZ-412"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Iuk-Vd-RC3" kind="show" identifier="ShowScreen" id="8rZ-pZ-JaS"/>
+                                            <outlet property="disclosureButton" destination="kUC-FL-Zof" id="ocX-uF-XEu"/>
+                                            <outlet property="plusButton" destination="UQ1-0h-gQH" id="yHE-Fx-Azs"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ButtonCell" id="0Ps-aD-izZ" customClass="ButtonTableViewCell" customModule="DoorSign" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0Ps-aD-izZ" id="lCZ-vg-ppO">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="265-Rb-KjV">
+                                                    <rect key="frame" x="0.0" y="0.0" width="244" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hmr-Zu-p9l">
+                                                            <rect key="frame" x="12" y="7" width="80" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <state key="normal" title="Button Title"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VIQ-oc-CnN">
+                                                    <rect key="frame" x="250" y="7" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="efk-sz-CZ2"/>
+                                                        <constraint firstAttribute="width" constant="30" id="i9y-xf-oc1"/>
+                                                    </constraints>
+                                                    <state key="normal" image="plusImage"/>
+                                                    <connections>
+                                                        <action selector="plusPressed:" destination="0Ps-aD-izZ" eventType="touchUpInside" id="wBL-5M-cbv"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="VIQ-oc-CnN" secondAttribute="trailing" constant="40" id="Hsg-zw-QKZ"/>
+                                                <constraint firstItem="VIQ-oc-CnN" firstAttribute="centerY" secondItem="lCZ-vg-ppO" secondAttribute="centerY" id="z8q-zR-bcM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="button" destination="hmr-Zu-p9l" id="hdP-lo-kib"/>
+                                            <outlet property="indentView" destination="265-Rb-KjV" id="qzC-gu-VlG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PageCell" id="U9c-Bv-AMz" customClass="PageTableViewCell" customModule="DoorSign" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="116" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="U9c-Bv-AMz" id="Rqm-Sn-L0o">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aPa-X9-wtC">
+                                                    <rect key="frame" x="0.0" y="-1" width="244" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="singlePage" translatesAutoresizingMaskIntoConstraints="NO" id="vXN-F6-0Sh">
+                                                            <rect key="frame" x="11" y="6" width="30" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </view>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="49Q-Py-rHm">
+                                                    <rect key="frame" x="250" y="7" width="65" height="30"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rJP-iB-9id">
+                                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="30" id="F4k-FA-q4s"/>
+                                                                <constraint firstAttribute="height" constant="30" id="vyr-KQ-MYH"/>
+                                                            </constraints>
+                                                            <state key="normal" image="plusImage"/>
+                                                            <connections>
+                                                                <action selector="plusPressed:" destination="U9c-Bv-AMz" eventType="touchUpInside" id="A25-Rt-dfx"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KW1-ps-sSV">
+                                                            <rect key="frame" x="35" y="0.0" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="30" id="Osb-gs-Pvg"/>
+                                                                <constraint firstAttribute="height" constant="30" id="WCD-qB-x6e"/>
+                                                            </constraints>
+                                                            <state key="normal" image="disclosureImage"/>
+                                                            <connections>
+                                                                <action selector="disclosurePressed:" destination="U9c-Bv-AMz" eventType="touchUpInside" id="iiV-lL-y6q"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="49Q-Py-rHm" secondAttribute="trailing" constant="5" id="LL1-p0-jF0"/>
+                                                <constraint firstItem="49Q-Py-rHm" firstAttribute="centerY" secondItem="Rqm-Sn-L0o" secondAttribute="centerY" id="XTg-b9-M65"/>
+                                                <constraint firstItem="49Q-Py-rHm" firstAttribute="centerY" secondItem="Rqm-Sn-L0o" secondAttribute="centerY" id="Y7j-Oj-wH8"/>
+                                                <constraint firstAttribute="trailing" secondItem="49Q-Py-rHm" secondAttribute="trailing" constant="5" id="iki-dT-B1o"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="disclosureButton" destination="KW1-ps-sSV" id="Scz-rv-bhZ"/>
+                                            <outlet property="indentView" destination="aPa-X9-wtC" id="e4s-uh-A9f"/>
+                                            <outlet property="pageIcon" destination="vXN-F6-0Sh" id="Rjj-UH-E69"/>
+                                            <outlet property="plusButton" destination="rJP-iB-9id" id="5Aj-hf-4DD"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -47,10 +185,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Z2e-5W-m5s" firstAttribute="trailing" secondItem="ZVE-av-0Cr" secondAttribute="trailing" id="XkC-tY-ZU9"/>
-                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="leading" secondItem="Z2e-5W-m5s" secondAttribute="leading" id="jXA-dL-btA"/>
-                            <constraint firstItem="Z2e-5W-m5s" firstAttribute="bottom" secondItem="ZVE-av-0Cr" secondAttribute="bottom" id="knJ-ZZ-09N"/>
-                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="top" secondItem="Z2e-5W-m5s" secondAttribute="top" id="rf0-NQ-oa5"/>
+                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="bottom" secondItem="Z2e-5W-m5s" secondAttribute="bottom" id="Eyd-oO-KPe"/>
+                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="leading" secondItem="Z2e-5W-m5s" secondAttribute="leading" id="Fbb-RK-L6j"/>
+                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="top" secondItem="Z2e-5W-m5s" secondAttribute="top" id="iV1-g1-l1Y"/>
+                            <constraint firstItem="ZVE-av-0Cr" firstAttribute="trailing" secondItem="Z2e-5W-m5s" secondAttribute="trailing" id="wZa-WL-qhG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Z2e-5W-m5s"/>
                     </view>
@@ -60,20 +198,16 @@
                                 <action selector="signOutPressed:" destination="cdS-o3-z6v" id="6VH-pR-eQU"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ORz-MB-JrV">
-                            <connections>
-                                <action selector="addScreenPressed:" destination="cdS-o3-z6v" id="tyr-4Y-oSx"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="ZVE-av-0Cr" id="eAh-yi-10d"/>
                         <segue destination="GCd-47-9l4" kind="presentation" identifier="AddScreen" id="C1W-Wh-M2G"/>
+                        <segue destination="Iuk-Vd-RC3" kind="show" identifier="ShowScreen" id="6X7-8J-mKN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fK-qM-Ave" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1268" y="360"/>
+            <point key="canvasLocation" x="1267.5" y="359.15492957746477"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tYp-fW-V2j">
@@ -321,7 +455,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" text="00A2FF" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AJM-m5-NUc">
+                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AJM-m5-NUc">
                                                             <rect key="frame" x="83" y="0.0" width="78" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="78" id="Y22-oy-zG5"/>
@@ -540,13 +674,17 @@
         <image name="black-backbutton" width="36" height="36"/>
         <image name="bwdbutton" width="16" height="28"/>
         <image name="center" width="18" height="8"/>
+        <image name="disclosureImage" width="32" height="32"/>
         <image name="fwdbutton" width="17" height="28"/>
+        <image name="home" width="127" height="101"/>
         <image name="left" width="18" height="8"/>
         <image name="moveDown" width="50" height="32"/>
         <image name="moveUp" width="50" height="32"/>
+        <image name="plusImage" width="41" height="43"/>
         <image name="right" width="18" height="8"/>
+        <image name="singlePage" width="125" height="106"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8rZ-pZ-JaS"/>
+        <segue reference="6X7-8J-mKN"/>
     </inferredMetricsTieBreakers>
 </document>

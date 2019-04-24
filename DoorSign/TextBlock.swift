@@ -48,13 +48,13 @@ class TextBlock {
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.
-    func saveData(screen: Screen, completed: @escaping (Bool) -> ()) {
+    func saveData(element: Element, completed: @escaping (Bool) -> ()) {
         let db = Firestore.firestore()
         // Create the dictionary representing the data we want to save
         let dataToSave = self.dictionary
         // if we HAVE saved a record, we'll have a documentID
         if self.documentID != "" {
-            let ref = db.collection("screens").document(screen.documentID).collection("textblocks").document(self.documentID)
+            let ref = db.collection("elements").document(element.documentID).collection("textblocks").document(self.documentID)
             ref.setData(dataToSave) { (error) in
                 if let error = error {
                     print("*** ERROR: updating document \(self.documentID) \(error.localizedDescription)")
@@ -66,7 +66,7 @@ class TextBlock {
             }
         } else {
             var ref: DocumentReference? = nil // Let firestore create the new documentID
-             ref = db.collection("screens").document(screen.documentID).collection("textblocks").addDocument(data: dataToSave) { error in
+             ref = db.collection("elements").document(element.documentID).collection("textblocks").addDocument(data: dataToSave) { error in
                 if let error = error {
                     print("*** ERROR: creating new document \(error.localizedDescription)")
                     completed(false)

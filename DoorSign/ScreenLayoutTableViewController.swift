@@ -23,9 +23,10 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     
     var selectedTextBlock: TextBlock!
     var textViewArray: [UITextView] = []
-    let reduceBlockSpaceBy: CGFloat = 5
+    let reduceBlockSpaceBy: CGFloat = 10
     
-    var screen: Screen!
+    // var screen: Screen!
+    var element: Element!
     var textBlocks = TextBlocks()
     var indexOfSelectedBlock = 0
     let textBoxWidth: CGFloat = 270
@@ -54,10 +55,11 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // If we don't have any textBlocks, then create a new, blank one & add it to the textBlocks array.
         
         // get all the text blocks that make up the selected screen
-        textBlocks.loadData(screen: screen) {
+        textBlocks.loadData(element: element) {
             
             if self.textBlocks.textBlocksArray.count == 0 {
                 let textBlock = TextBlock()
@@ -72,6 +74,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         // Reloads table view so cells resize properly once data & UITextViews are configured.
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
@@ -92,7 +95,12 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         
         fontAlignmentSegmentedControl.selectedSegmentIndex = selectedTextBlock.alignment
         configureFontSizeControl()
-        
+        configureMoveArrows()
+    }
+    
+    func configureMoveArrows() {
+        moveUpButton.isEnabled = indexOfSelectedBlock == 0 ? false : true
+        moveDownButton.isEnabled = indexOfSelectedBlock == textBlockViews.count-1 ? false : true
     }
     
     func configureScreenView() {
@@ -155,6 +163,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         
         // Configure newTextView based on textBlock data
         newTextView.textColor = UIColor().colorWithHexString(hexString: textBlock.blockFontColor)
+        colorTextField.text = textBlock.blockFontColor
         newTextView.textAlignment = setAlignment(alignmentValue: textBlock.alignment)
         return newTextView
     }
@@ -263,7 +272,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        textBlocks.saveData(screen: screen) { success in
+        textBlocks.saveData(element: element) { success in
             if success {
                 self.leaveViewController()
             } else {
