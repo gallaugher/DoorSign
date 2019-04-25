@@ -29,8 +29,6 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var backgroundImageView: UIImageView!
     
-    
-    
     @IBOutlet var textBlockViews: [UITextView]! = []
     @IBOutlet var actionButtons: [UIButton]! = []
     
@@ -91,6 +89,9 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
             }
             self.selectedTextBlock = self.textBlocks.textBlocksArray[self.indexOfSelectedBlock]
             self.configureUserInterface()
+        }
+        element.loadBackgroundImage {
+            self.backgroundImageView.image = self.element.backgroundImage
         }
     }
     
@@ -224,6 +225,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     }
     
     func configureUserInterface() {
+        backgroundImageView.image = element.backgroundImage
         configurePrevNextBackButtons()
         for subview in screenView.subviews {
             if subview is UITextView {

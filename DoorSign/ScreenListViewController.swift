@@ -38,7 +38,7 @@ class ScreenListViewController: UIViewController {
         elements.loadData {
             
             if self.elements.elementArray.isEmpty {
-                let homeElement = Element(elementName: "Home", elementType: "Home", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), documentID: "")
+                let homeElement = Element(elementName: "Home", elementType: "Home", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), backgroundImageUUID: "", documentID: "")
                 
                 homeElement.saveData(completed: { (success) in
                     if !success { // if failed
@@ -232,8 +232,8 @@ extension ScreenListViewController: PlusAndDisclosureDelegate {
         
         let newButtonID = UUID().uuidString
         let newPageID = UUID().uuidString
-        let newButton = Element(elementName: buttonName, elementType: "Button", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [newPageID], documentID: newButtonID)
-        let newPage = Element(elementName: buttonName, elementType: "Page", parentID: newButtonID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+2, childrenIDs: [String](), documentID: newPageID)
+        let newButton = Element(elementName: buttonName, elementType: "Button", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [newPageID], backgroundImageUUID: "", documentID: newButtonID)
+        let newPage = Element(elementName: buttonName, elementType: "Page", parentID: newButtonID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+2, childrenIDs: [String](), backgroundImageUUID: "", documentID: newPageID)
         let parent = elements.elementArray[indexPath.row]
         parent.childrenIDs.append(newButtonID)
         parent.saveData { (success) in
@@ -256,7 +256,7 @@ extension ScreenListViewController: PlusAndDisclosureDelegate {
     
     func addPage(indexPath: IndexPath) {
         let newPageID = UUID().uuidString
-        let newPage = Element(elementName: elements.elementArray[indexPath.row].elementName, elementType: "Page", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [String](), documentID: newPageID)
+        let newPage = Element(elementName: elements.elementArray[indexPath.row].elementName, elementType: "Page", parentID: elements.elementArray[indexPath.row].documentID, hierarchyLevel: elements.elementArray[indexPath.row].hierarchyLevel+1, childrenIDs: [String](), backgroundImageUUID: "", documentID: newPageID)
         
         let parent = elements.elementArray[indexPath.row]
         parent.childrenIDs.append(newPageID)

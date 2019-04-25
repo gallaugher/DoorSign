@@ -26,7 +26,7 @@ class Elements {
             self.elementArray = []
             // there are querySnapshot!.documents.count documents in the events snapshot
             for document in querySnapshot!.documents {
-                var element = Element(dictionary: document.data())
+                let element = Element(dictionary: document.data())
                 element.documentID = document.documentID
                 self.elementArray.append(element)
             }

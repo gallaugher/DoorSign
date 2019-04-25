@@ -24,17 +24,18 @@ class Element {
         return ["elementName": elementName, "elementType": elementType, "parentID": parentID, "hierarchyLevel": hierarchyLevel, "backgroundImageUUID": backgroundImageUUID, "childrenIDs": childrenIDs]
     }
     
-    init(elementName: String, elementType: String, parentID: String, hierarchyLevel: Int, childrenIDs: [String], documentID: String) {
+    init(elementName: String, elementType: String, parentID: String, hierarchyLevel: Int, childrenIDs: [String], backgroundImageUUID: String, documentID: String) {
         self.elementName = elementName
         self.elementType = elementType
         self.parentID = parentID
         self.hierarchyLevel = hierarchyLevel
         self.childrenIDs = childrenIDs
+        self.backgroundImageUUID = backgroundImageUUID
         self.documentID = documentID
     }
     
     convenience init() {
-        self.init(elementName: "", elementType: "", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), documentID: "")
+        self.init(elementName: "", elementType: "", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), backgroundImageUUID: "", documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
@@ -42,8 +43,9 @@ class Element {
         let elementType = dictionary["elementType"] as! String? ?? ""
         let parentID = dictionary["parentID"] as! String? ?? ""
         let hierarchyLevel = dictionary["hierarchyLevel"] as! Int? ?? 0
+        let backgroundImageUUID = dictionary["backgroundImageUUID"] as! String? ?? ""
         let childrenIDs = dictionary["childrenIDs"] as! [String]? ?? [String]()
-        self.init(elementName: elementName, elementType: elementType, parentID: parentID, hierarchyLevel: hierarchyLevel, childrenIDs: childrenIDs, documentID: "")
+        self.init(elementName: elementName, elementType: elementType, parentID: parentID, hierarchyLevel: hierarchyLevel, childrenIDs: childrenIDs, backgroundImageUUID: backgroundImageUUID, documentID: "")
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "elements" below.
@@ -77,7 +79,7 @@ class Element {
             }
         }
     }
-
+    
     func saveImage(completed: @escaping (Bool) -> ()) {
         let storage = Storage.storage()
         // convert screen.image to a Data type so it can be saved by Firebase Storage
@@ -99,19 +101,19 @@ class Element {
         
         uploadTask.observe(.success) { (snapshot) in
             print("😎 successfully saved image to Firebase Storage")
-//            // Create the dictionary representing the data we want to save
-//            let dataToSave = self.dictionary
-//            // This will either create a new doc at documentUUID or update the existing doc with that name
-//            let ref = db.collection("spots").document(spot.documentID).collection("photos").document(self.documentUUID)
-//            ref.setData(dataToSave) { (error) in
-//                if let error = error {
-//                    print("*** ERROR: updating document \(self.documentUUID) in spot \(spot.documentID) \(error.localizedDescription)")
-//                    completed(false)
-//                } else {
-//                    print("^^^ Document updated with ref ID \(ref.documentID)")
-//                    completed(true)
-//                }
-//            }
+            //            // Create the dictionary representing the data we want to save
+            //            let dataToSave = self.dictionary
+            //            // This will either create a new doc at documentUUID or update the existing doc with that name
+            //            let ref = db.collection("spots").document(spot.documentID).collection("photos").document(self.documentUUID)
+            //            ref.setData(dataToSave) { (error) in
+            //                if let error = error {
+            //                    print("*** ERROR: updating document \(self.documentUUID) in spot \(spot.documentID) \(error.localizedDescription)")
+            //                    completed(false)
+            //                } else {
+            //                    print("^^^ Document updated with ref ID \(ref.documentID)")
+            //                    completed(true)
+            //                }
+            //            }
         }
         
         uploadTask.observe(.failure) { (snapshot) in
@@ -119,6 +121,21 @@ class Element {
                 print("*** ERROR: upload task for file \(self.backgroundImageUUID) failed, in element \(self.documentID), error \(error)")
             }
             return completed(false)
+        }
+    }
+    
+    func loadBackgroundImage (completed: @escaping () -> ()) {
+        let storage = Storage.storage()
+        let backgroundImageRef = storage.reference().child(self.backgroundImageUUID)
+        backgroundImageRef.getData(maxSize: 25 * 1025 * 1025) { data, error in
+            if let error = error {
+                print("*** ERROR: An error occurred while reading data from file ref: \(backgroundImageRef) \(error.localizedDescription)")
+                return completed()
+            } else {
+                let image = UIImage(data: data!)
+                self.backgroundImage = image!
+                return completed()
+            }
         }
     }
 }
