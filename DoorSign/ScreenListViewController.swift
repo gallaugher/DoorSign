@@ -39,16 +39,13 @@ class ScreenListViewController: UIViewController {
             
             if self.elements.elementArray.isEmpty {
                 let homeElement = Element(elementName: "Home", elementType: "Home", parentID: "", hierarchyLevel: 0, childrenIDs: [String](), documentID: "")
-                //Element(name: "Home", id: "Home", type: "Home", parentID: "", hierarchyLevel: 0, chidrenIDs: [])
+                
                 homeElement.saveData(completed: { (success) in
                     if !success { // if failed
                         print("😡 ERROR: could not save a Home element.")
+                        return
                     }
-                    self.elements.loadData {
-                        // self.sortArrayRowsIntoHierarchy()
-                        self.tableView.reloadData()
-                        self.performSegue(withIdentifier: "AddScreen", sender: nil)
-                    }
+                    self.performSegue(withIdentifier: "AddScreen", sender: nil)
                 })
             } else {
                 self.elements.loadData {
@@ -103,10 +100,12 @@ class ScreenListViewController: UIViewController {
             let destination = segue.destination as! ScreenLayoutTableViewController
             let selectedIndexPath = tableView.indexPathForSelectedRow!
             destination.element = elements.elementArray[selectedIndexPath.row]
+            destination.elements = elements
         } else { // pass the last element - we'll sort them when they're back. No need to worry about deselecting
             let navigationController = segue.destination as! UINavigationController
             let destination = navigationController.viewControllers.first as! ScreenLayoutTableViewController
             destination.element = elements.elementArray.last
+            destination.elements = elements
         }
     }
     
@@ -304,5 +303,8 @@ extension ScreenListViewController: PlusAndDisclosureDelegate {
     
     func didTapDisclosure(at indexPath: IndexPath) {
         print("*** You Tapped the Disclosure Button at \(indexPath.row)")
+        let selectedIndexPath = IndexPath(row: indexPath.row, section: indexPath.section)
+        self.tableView.selectRow(at: selectedIndexPath, animated: true, scrollPosition: .none)
+        self.performSegue(withIdentifier: "ShowScreen", sender: nil)
     }
 }

@@ -9,4 +9,5 @@ target 'DoorSign' do
     pod 'FirebaseUI/Auth'
     pod 'FirebaseUI/Google'
     pod 'SDWebImage', '~> 5.0'
+    pod 'CropViewController'
 end

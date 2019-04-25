@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E308655A3AF410DA41F60FD022DDAAD"
+               BlueprintIdentifier = "3C6979D1A0FE05EE35C7C3697B432BEB"
                BuildableName = "Pods_DoorSign.framework"
                BlueprintName = "Pods-DoorSign"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9E308655A3AF410DA41F60FD022DDAAD"
+            BlueprintIdentifier = "3C6979D1A0FE05EE35C7C3697B432BEB"
             BuildableName = "Pods_DoorSign.framework"
             BlueprintName = "Pods-DoorSign"
             ReferencedContainer = "container:Pods.xcodeproj">

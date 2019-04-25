@@ -10,6 +10,12 @@ import UIKit
 
 class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate, UIGestureRecognizerDelegate {
     
+    enum BackgroundImageStatus {
+        case unchanged
+        case save
+        case delete
+    }
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var screenView: UIView!
     @IBOutlet weak var fontSizeSegmentedControl: UISegmentedControl!
@@ -18,8 +24,15 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     @IBOutlet weak var colorTextField: UITextField!
     @IBOutlet weak var moveUpButton: UIButton!
     @IBOutlet weak var moveDownButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var previousButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    
+    
     
     @IBOutlet var textBlockViews: [UITextView]! = []
+    @IBOutlet var actionButtons: [UIButton]! = []
     
     var selectedTextBlock: TextBlock!
     var textViewArray: [UITextView] = []
@@ -27,6 +40,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     
     // var screen: Screen!
     var element: Element!
+    var elements: Elements!
     var textBlocks = TextBlocks()
     var indexOfSelectedBlock = 0
     let textBoxWidth: CGFloat = 270
@@ -43,8 +57,13 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     let sizeSegmentCellHeight: CGFloat = 35
     let moveDeleteAddSegmentCellHeight: CGFloat = 33
     
+    var imagePicker = UIImagePickerController()
+    var backgroundImageStatus: BackgroundImageStatus = .unchanged
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        backgroundImageView.image = UIImage()
+        imagePicker.delegate = self
         textBoxView.delegate = self
         textBoxView.becomeFirstResponder()
         
@@ -52,6 +71,8 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
+        
+        createButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,15 +101,136 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         self.tableView.endUpdates()
     }
     
-    func configureUserInterface() {
+    func createButton(buttonName: String) -> UIButton {
+        let paddingAroundText: CGFloat = 8.0
+        let newButton = UIButton(frame: self.screenView.frame)
+        newButton.setTitle(buttonName, for: .normal)
+        newButton.titleLabel?.font = .boldSystemFont(ofSize: 13.0)
+        newButton.sizeToFit()
+        newButton.frame = CGRect(x: newButton.frame.origin.x, y: newButton.frame.origin.y, width: newButton.frame.width + (paddingAroundText*2), height: newButton.frame.height)
+        newButton.backgroundColor=UIColor().colorWithHexString(hexString: "923125")
+        newButton.addTarget(self, action: #selector(changeButtonTitle), for: .touchUpInside)
+        return newButton
+    }
+    
+    @objc func changeButtonTitle(_ sender: UIButton) {
+        showInputDialog(title: nil,
+                        message: "Change the label on the '\(sender.titleLabel?.text ?? "")' button:",
+            actionTitle: "Change",
+            cancelTitle: "Cancel",
+            inputPlaceholder: nil,
+            inputKeyboardType: .default,
+            actionHandler: {(input:String?) in
+                guard let buttonTitle = input else {
+                    return
+                }
+                sender.setTitle(buttonTitle, for: .normal)
+                self.saveButtonTitle(sender: sender)
+        },
+            cancelHandler: nil)
+        
+    }
+    
+    func saveButtonTitle(sender: UIButton) {
+        
+        guard let clickedButtonIndex = actionButtons.firstIndex(where: {$0 == sender}) else {
+            print("😡 couldn't get clickedButtonIndex")
+            return
+        }
+        
+        let clickedButtonID = element.childrenIDs[clickedButtonIndex]
+        let clickedButtonElement = elements.elementArray.first(where: {$0.documentID == clickedButtonID})
+        clickedButtonElement?.elementName = sender.titleLabel?.text ?? "<ERROR CHANGING BUTTON TITLE>"
+        
+        clickedButtonElement?.saveData() {success in
+            if !success { // if not successful
+                print("😡 ERROR: couldn't save change to clicked button at documentID = \(clickedButtonElement!.documentID)")
+            } else {
+                print("-> Yeah, properly updated button title!")
+            }
+        }
+    }
+    
+    func createButtons() {
+        // no buttons to create if there aren't any children
+        guard element.childrenIDs.count > 0 else {
+            return
+        }
+        
+        var buttonNames = [String]() // clear out button names
+        for childID in element.childrenIDs { // loop through all childIDs
+            if let buttonElement = elements.elementArray.first(where: {$0.documentID == childID}) { // if you can find an element with that childID
+                buttonNames.append(buttonElement.elementName) // add it's name to buttonNames
+            }
+        }
+        
+        // create a button (in actionButtons) for each buttonName
+        for buttonName in buttonNames {
+            actionButtons.append(createButton(buttonName: buttonName))
+        }
+        
+        // position action buttons
+        // 12 & 12 from lower right-hand corner
+        let indent: CGFloat = 12.0
+        // start in lower-left of screenView
+        var buttonX: CGFloat = 0.0
+        // var buttonX = screenView.frame.origin.x
+        let buttonY = screenView.frame.height-indent-actionButtons[0].frame.height
+        
+        for button in actionButtons {
+            var buttonFrame = button.frame
+            buttonX = buttonX + indent
+            buttonFrame = CGRect(x: buttonX, y: buttonY, width: buttonFrame.width, height: buttonFrame.height)
+            button.frame = buttonFrame
+            screenView.addSubview(button)
+            buttonX = buttonX + button.frame.width // move start portion of next button rect to the end of the current button rect
+        }
+        if element.elementType == "Home" {
+            var widthOfAllButtons = actionButtons.reduce(0.0,{$0 + $1.frame.width})
+            widthOfAllButtons = widthOfAllButtons + (CGFloat(actionButtons.count-1)*indent)
+            var shiftedX = (screenView.frame.width-widthOfAllButtons)/2
+            
+            for button in actionButtons {
+                button.frame.origin.x = shiftedX
+                shiftedX = shiftedX + button.frame.width + indent
+            }
+        }
+    }
+    
+    func configurePrevNextBackButtons() {
+        // Hide the back button if you're looking at the "Home" screen (because there's no way to go back if you're at home, the root of the tree hierarchy.
+        if element.elementType == "Home" {
+            backButton.isHidden = element.elementType == "Home"
+            previousButton.isHidden = true
+            nextButton.isHidden = true
+        }
+        
         // Clear out old UITextView subviews. setting array to empty isn't enough to get rid of residual data structures
+        let parentID = element.parentID
+        let foundParent = elements.elementArray.first(where: {$0.documentID == parentID})
+        guard let parent = foundParent else { // unwrap found parent
+            if element.elementType != "Home" {
+                print("😡 ERROR: could not get the element's parent")
+            }
+            return
+        }
+        if parent.childrenIDs.count > 1 {
+            previousButton.isHidden = false
+            nextButton.isHidden = false
+        } else {
+            previousButton.isHidden = true
+            nextButton.isHidden = true
+        }
+    }
+    
+    func configureUserInterface() {
+        configurePrevNextBackButtons()
         for subview in screenView.subviews {
             if subview is UITextView {
                 subview.removeFromSuperview()
             }
         }
         textBlockViews = []
-        
         // configure screenView and textBoxView
         self.configureScreenView()
         self.textBoxView = self.configureTextView(newTextView: self.textBoxView, textBlock: self.textBlocks.textBlocksArray[self.indexOfSelectedBlock], topOfViewFrame: self.textBoxView.frame.origin.y)
@@ -131,13 +273,9 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         }
     }
     
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
-    
     @objc func viewTapped(sender: UITapGestureRecognizer?) {
         var indexOfTappedView = 0
-
+        
         for index in 0..<textBlockViews.count {
             if sender?.view == textBlockViews[index] {
                 indexOfTappedView = index
@@ -193,6 +331,30 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         default:
             print("😡 ERROR: This fontSizeSegmentedControl = \(fontSizeSegmentedControl.selectedSegmentIndex) should not have occurred ")
         }
+    }
+    
+    func cameraOrLibraryAlert() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+            self.accessCamera()
+        }
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
+            self.accessLibrary()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cameraAction)
+        alertController.addAction(photoLibraryAction)
+        alertController.addAction(cancelAction)
+        
+        if backgroundImageView.image!.size.width > 0 { // if there is an image to remove
+            let deleteAction = UIAlertAction(title: "Delete Background", style: .destructive) { _ in
+                self.backgroundImageView.image = UIImage()
+                self.backgroundImageStatus = .delete
+            }
+            alertController.addAction(deleteAction)
+        }
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @IBAction func colorFieldEditingEnded(_ sender: UITextField) {
@@ -272,9 +434,28 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
+        
         textBlocks.saveData(element: element) { success in
             if success {
                 self.leaveViewController()
+                switch self.backgroundImageStatus {
+                case .delete:
+                // TODO: Something will go here, but for now, break
+                    break // do nothing
+                case .save:
+                    self.element.backgroundImageUUID = UUID().uuidString
+                    self.element.saveData { (success) in
+                        if success {
+                            self.element.saveImage { (success) in
+                            }
+                        } else {
+                            print("😡 ERROR: Could not add backgroundImageUUID to elment \(self.element.elementName)")
+                        }
+                    }
+                case .unchanged:
+                    break // do nothing
+                }
             } else {
                 print("*** ERROR: Couldn't leave this view controller because data wasn't saved.")
             }
@@ -285,6 +466,10 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
         leaveViewController()
     }
     
+    
+    @IBAction func addImageButtonPressed(_ sender: UIBarButtonItem) {
+        cameraOrLibraryAlert()
+    }
 }
 
 extension ScreenLayoutTableViewController {
@@ -306,5 +491,55 @@ extension ScreenLayoutTableViewController {
             return 44
         }
     }
+}
+
+/*
+ - I could add an image where one did not exist
+ - create UUID and save image to firebase storage
+ - if background UUID == "" and .save
+ - delete an existing image, leaving no image
+ - delete UUID (? set it to "") and delete image from firebase storage
+ - if background UUID != "" and .delete
+ - update an existing image
+ - replace image on Firebase Storage at existing UUID with new image
+ - if background UUID != "" and .save
+ 
+ backgroundImageStatus
+ .unchanged
+ .save
+ .delete
+ */
+
+extension ScreenLayoutTableViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // show the selected image in the app's backgroundImageView
+        backgroundImageView.image = (info[UIImagePickerController.InfoKey.originalImage] as! UIImage)
+        element.backgroundImage = backgroundImageView.image! // and store image in element
+        backgroundImageStatus = .save
+        dismiss(animated: true) {
+            // TODO: image saving here
+            //            photo.saveData(spot: self.spot) { (success) in
+            //            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func accessLibrary() {
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func accessCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            self.showAlert(title: "Camera Not Available", message: "There is no camera available on this device.")
+        }
+    }
 }

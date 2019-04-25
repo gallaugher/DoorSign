@@ -52,5 +52,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs approval to access your camera.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs approval to access your photo library.</string>
 </dict>
 </plist>
