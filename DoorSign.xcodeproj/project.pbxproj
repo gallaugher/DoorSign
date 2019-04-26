@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3E0EFAB6227085D600BA564E /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0EFAB5227085D600BA564E /* Node.swift */; };
 		3E35AB02226BB5460067C3E8 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */; };
 		3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */; };
 		3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */; };
@@ -17,13 +16,9 @@
 		3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3BFF22660F5E003B8DCC /* Main.storyboard */; };
 		3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3C0222660F60003B8DCC /* Assets.xcassets */; };
 		3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */; };
-		3E99C99D2269184700A07F4F /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C99C2269184700A07F4F /* Screen.swift */; };
 		3E99C99F2269186400A07F4F /* TextBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C99E2269186400A07F4F /* TextBlock.swift */; };
-		3E99C9A122691B2900A07F4F /* Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C9A022691B2900A07F4F /* Screens.swift */; };
 		3E99C9A32269453000A07F4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C9A22269453000A07F4F /* Constants.swift */; };
 		3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */; };
-		3EA970FB226904F500672C4E /* ScreenLayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */; };
-		3EA970FF2269142F00672C4E /* TextBoxDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */; };
 		3ED42A47226F8CFE002BD10B /* PlusAndDisclosureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A46226F8CFE002BD10B /* PlusAndDisclosureDelegate.swift */; };
 		3ED42A49226F8E25002BD10B /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A48226F8E25002BD10B /* ButtonTableViewCell.swift */; };
 		3ED42A4B226F8E8F002BD10B /* PageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A4A226F8E8F002BD10B /* PageTableViewCell.swift */; };
@@ -35,7 +30,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3E0EFAB5227085D600BA564E /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutTableViewController.swift; sourceTree = "<group>"; };
@@ -47,13 +41,9 @@
 		3E8F3C0222660F60003B8DCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E8F3C0522660F60003B8DCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E8F3C0722660F60003B8DCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E99C99C2269184700A07F4F /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
 		3E99C99E2269186400A07F4F /* TextBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlock.swift; sourceTree = "<group>"; };
-		3E99C9A022691B2900A07F4F /* Screens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screens.swift; sourceTree = "<group>"; };
 		3E99C9A22269453000A07F4F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+colorWithHexString.swift"; sourceTree = "<group>"; };
-		3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutViewController.swift; sourceTree = "<group>"; };
-		3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxDetailTableViewController.swift; sourceTree = "<group>"; };
 		3ED42A46226F8CFE002BD10B /* PlusAndDisclosureDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusAndDisclosureDelegate.swift; sourceTree = "<group>"; };
 		3ED42A48226F8E25002BD10B /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 		3ED42A4A226F8E8F002BD10B /* PageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTableViewCell.swift; sourceTree = "<group>"; };
@@ -118,11 +108,8 @@
 			children = (
 				3E8F3BFB22660F5E003B8DCC /* AppDelegate.swift */,
 				3E99C9A22269453000A07F4F /* Constants.swift */,
-				3E0EFAB5227085D600BA564E /* Node.swift */,
 				3ED42A4C226F9595002BD10B /* Element.swift */,
 				3ED42A4E226F9A83002BD10B /* Elements.swift */,
-				3E99C9A022691B2900A07F4F /* Screens.swift */,
-				3E99C99C2269184700A07F4F /* Screen.swift */,
 				3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */,
 				3E99C99E2269186400A07F4F /* TextBlock.swift */,
 				3E8F3BFD22660F5E003B8DCC /* ScreenListViewController.swift */,
@@ -130,8 +117,6 @@
 				3ED42A48226F8E25002BD10B /* ButtonTableViewCell.swift */,
 				3ED42A4A226F8E8F002BD10B /* PageTableViewCell.swift */,
 				3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */,
-				3EA970FA226904F500672C4E /* ScreenLayoutViewController.swift */,
-				3EA970FE2269142F00672C4E /* TextBoxDetailTableViewController.swift */,
 				3E80E234226BE6B7005B5E4C /* UIViewController+AlertWithInput.swift */,
 				3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */,
 				3ED42A46226F8CFE002BD10B /* PlusAndDisclosureDelegate.swift */,
@@ -315,13 +300,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */,
-				3EA970FB226904F500672C4E /* ScreenLayoutViewController.swift in Sources */,
 				3ED42A4B226F8E8F002BD10B /* PageTableViewCell.swift in Sources */,
 				3E99C9A32269453000A07F4F /* Constants.swift in Sources */,
 				3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */,
-				3E99C9A122691B2900A07F4F /* Screens.swift in Sources */,
-				3EA970FF2269142F00672C4E /* TextBoxDetailTableViewController.swift in Sources */,
-				3E0EFAB6227085D600BA564E /* Node.swift in Sources */,
 				3E80E235226BE6B7005B5E4C /* UIViewController+AlertWithInput.swift in Sources */,
 				3E35AB02226BB5460067C3E8 /* HomeTableViewCell.swift in Sources */,
 				3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */,
@@ -332,7 +313,6 @@
 				3ED42A4F226F9A83002BD10B /* Elements.swift in Sources */,
 				3ED42A49226F8E25002BD10B /* ButtonTableViewCell.swift in Sources */,
 				3E8F3BFC22660F5E003B8DCC /* AppDelegate.swift in Sources */,
-				3E99C99D2269184700A07F4F /* Screen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
