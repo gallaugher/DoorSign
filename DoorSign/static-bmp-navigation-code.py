@@ -10,6 +10,13 @@ https://furcean.com/2019/03/21/pyportal-app-launcher/
 And John Park & the Adafruit crew for the PyPortal Weather Station
 demo, which was helpful in understanding JSON parsing.
 https://learn.adafruit.com/pyportal-weather-station/overview
+
+This version was a demo showing how I could hard-code click spots on .bmps
+There is no iOS app integration with this code, nor is anything fetched over the
+Internet. I am NOT a python programmer, so this code is really raw, hasn't been refactored, or
+cleaned up in any way. Sorry I've been so busy, but let me know if it's
+helpful & also if you've got suggestions (esp. for the other code file
+that is the one connected to the iOS app & Cloud Firestore).
 """
 import time
 import board

@@ -17,24 +17,26 @@ class TextBlock {
     var alignment: Int
     var numberOfLines: Int
     var orderPosition: Int
+    var parentID: String
     var documentID: String
     
     var dictionary: [String: Any] {
-        return ["blockText": blockText, "blockFontColor": blockFontColor, "blockFontSize": blockFontSize, "alignment": alignment, "numberOfLines": numberOfLines, "orderPosition": orderPosition]
+        return ["blockText": blockText, "blockFontColor": blockFontColor, "blockFontSize": blockFontSize, "alignment": alignment, "numberOfLines": numberOfLines, "orderPosition": orderPosition, "parentID": parentID]
     }
     
-    init(blockText: String, blockFontColor: String, blockFontSize: CGFloat, alignment: Int, numberOfLines: Int, orderPosition: Int, documentID: String) {
+    init(blockText: String, blockFontColor: String, blockFontSize: CGFloat, alignment: Int, numberOfLines: Int, orderPosition: Int, parentID: String, documentID: String) {
         self.blockText = blockText
         self.blockFontColor = blockFontColor
         self.blockFontSize = blockFontSize
         self.alignment = alignment
         self.numberOfLines = numberOfLines
         self.orderPosition = orderPosition
+        self.parentID = parentID
         self.documentID = ""
     }
     
     convenience init() {
-        self.init(blockText: "", blockFontColor: "000000", blockFontSize: Constants.largeFontSize, alignment: Constants.leftAlignment, numberOfLines: 1, orderPosition: 0, documentID: "")
+        self.init(blockText: "", blockFontColor: "000000", blockFontSize: Constants.largeFontSize, alignment: Constants.leftAlignment, numberOfLines: 1, orderPosition: 0, parentID: "", documentID: "")
     }
     
     convenience init(dictionary: [String: Any]) {
@@ -44,7 +46,8 @@ class TextBlock {
         let alignment = dictionary["alignment"] as! Int? ?? Constants.leftAlignment
         let numberOfLines = dictionary["numberOfLines"] as! Int? ?? 1
         let orderPosition = dictionary["orderPosition"] as! Int? ?? 0
-        self.init(blockText: blockText, blockFontColor: blockFontColor, blockFontSize: blockFontSize, alignment: alignment, numberOfLines: numberOfLines, orderPosition: orderPosition, documentID: "")
+        let parentID = dictionary["parentID"] as! String? ?? ""
+        self.init(blockText: blockText, blockFontColor: blockFontColor, blockFontSize: blockFontSize, alignment: alignment, numberOfLines: numberOfLines, orderPosition: orderPosition, parentID: parentID, documentID: "")
     }
     
     // NOTE: If you keep the same programming conventions (e.g. a calculated property .dictionary that converts class properties to String: Any pairs, the name of the document stored in the class as .documentID) then the only thing you'll need to change is the document path (i.e. the lines containing "events" below.
@@ -54,7 +57,7 @@ class TextBlock {
         let dataToSave = self.dictionary
         // if we HAVE saved a record, we'll have a documentID
         if self.documentID != "" {
-            let ref = db.collection("elements").document(element.documentID).collection("textblocks").document(self.documentID)
+            let ref = db.collection("textblocks").document(self.documentID)
             ref.setData(dataToSave) { (error) in
                 if let error = error {
                     print("*** ERROR: updating document \(self.documentID) \(error.localizedDescription)")
@@ -66,7 +69,7 @@ class TextBlock {
             }
         } else {
             var ref: DocumentReference? = nil // Let firestore create the new documentID
-             ref = db.collection("elements").document(element.documentID).collection("textblocks").addDocument(data: dataToSave) { error in
+             ref = db.collection("textblocks").addDocument(data: dataToSave) { error in
                 if let error = error {
                     print("*** ERROR: creating new document \(error.localizedDescription)")
                     completed(false)

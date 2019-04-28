@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E1A7DD822754E010012D65B /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A7DD722754E010012D65B /* code.py */; };
 		3E35AB02226BB5460067C3E8 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */; };
 		3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */; };
 		3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */; };
@@ -24,12 +25,13 @@
 		3ED42A4B226F8E8F002BD10B /* PageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A4A226F8E8F002BD10B /* PageTableViewCell.swift */; };
 		3ED42A4D226F9595002BD10B /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A4C226F9595002BD10B /* Element.swift */; };
 		3ED42A4F226F9A83002BD10B /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A4E226F9A83002BD10B /* Elements.swift */; };
-		3EE341C6226664E300555CC4 /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* code.py */; };
+		3EE341C6226664E300555CC4 /* static-bmp-navigation-code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */; };
 		3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */; };
 		E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E1A7DD722754E010012D65B /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = SOURCE_ROOT; };
 		3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutTableViewController.swift; sourceTree = "<group>"; };
@@ -49,7 +51,7 @@
 		3ED42A4A226F8E8F002BD10B /* PageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTableViewCell.swift; sourceTree = "<group>"; };
 		3ED42A4C226F9595002BD10B /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		3ED42A4E226F9A83002BD10B /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
-		3EE341C5226664E300555CC4 /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = "<group>"; };
+		3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "static-bmp-navigation-code.py"; sourceTree = "<group>"; };
 		3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlocks.swift; sourceTree = "<group>"; };
 		7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.release.xcconfig"; sourceTree = "<group>"; };
 		8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoorSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,7 +127,8 @@
 				3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */,
 				3E8F3C0722660F60003B8DCC /* Info.plist */,
 				3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */,
-				3EE341C5226664E300555CC4 /* code.py */,
+				3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */,
+				3E1A7DD722754E010012D65B /* code.py */,
 			);
 			path = DoorSign;
 			sourceTree = "<group>";
@@ -192,8 +195,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */,
-				3EE341C6226664E300555CC4 /* code.py in Resources */,
+				3EE341C6226664E300555CC4 /* static-bmp-navigation-code.py in Resources */,
 				3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */,
+				3E1A7DD822754E010012D65B /* code.py in Resources */,
 				3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */,
 				3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */,
 			);

@@ -76,6 +76,12 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // If we don't have any textBlocks, then create a new, blank one & add it to the textBlocks array.
+        // The guard is here in case the user has created unsaved textBlocks & then clicked the camera
+        // showing the image picker. A new record would crash at this point since there are unsaved textblocks
+        // that won't load, below. Dropping out of the reload if there are already text blocks should fix this problem.
+        guard textBlocks.textBlocksArray.count == 0 else {
+            return
+        }
         
         // get all the text blocks that make up the selected screen
         textBlocks.loadData(element: element) {
@@ -90,8 +96,10 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
             self.selectedTextBlock = self.textBlocks.textBlocksArray[self.indexOfSelectedBlock]
             self.configureUserInterface()
         }
-        element.loadBackgroundImage {
-            self.backgroundImageView.image = self.element.backgroundImage
+        if element.backgroundImageUUID != "" {
+            element.loadBackgroundImage {
+                self.backgroundImageView.image = self.element.backgroundImage
+            }
         }
     }
     
