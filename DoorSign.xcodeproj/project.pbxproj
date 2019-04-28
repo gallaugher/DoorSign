@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E1A7DD822754E010012D65B /* code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A7DD722754E010012D65B /* code.py */; };
+		3E1A7DDA22754F220012D65B /* Images Used on PyPortal for testing in Resources */ = {isa = PBXBuildFile; fileRef = 3E1A7DD922754F220012D65B /* Images Used on PyPortal for testing */; };
 		3E35AB02226BB5460067C3E8 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */; };
 		3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */; };
 		3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		3E1A7DD722754E010012D65B /* code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = code.py; sourceTree = SOURCE_ROOT; };
+		3E1A7DD922754F220012D65B /* Images Used on PyPortal for testing */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Images Used on PyPortal for testing"; sourceTree = SOURCE_ROOT; };
 		3E35AB01226BB5460067C3E8 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLayoutTableViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */,
 				3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */,
 				3E1A7DD722754E010012D65B /* code.py */,
+				3E1A7DD922754F220012D65B /* Images Used on PyPortal for testing */,
 			);
 			path = DoorSign;
 			sourceTree = "<group>";
@@ -195,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E8F3C0622660F60003B8DCC /* LaunchScreen.storyboard in Resources */,
+				3E1A7DDA22754F220012D65B /* Images Used on PyPortal for testing in Resources */,
 				3EE341C6226664E300555CC4 /* static-bmp-navigation-code.py in Resources */,
 				3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */,
 				3E1A7DD822754E010012D65B /* code.py in Resources */,
