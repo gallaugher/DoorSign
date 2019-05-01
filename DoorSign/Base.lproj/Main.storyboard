@@ -495,11 +495,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="bgg-yd-Kfa">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="TuW-bN-ZdG">
-                            <connections>
-                                <action selector="addImageButtonPressed:" destination="Iuk-Vd-RC3" id="p9J-Xu-da8"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="camera" id="TuW-bN-ZdG">
+                                <connections>
+                                    <action selector="addImageButtonPressed:" destination="Iuk-Vd-RC3" id="p9J-Xu-da8"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="View Grab" id="3Bq-mB-MW4">
+                                <connections>
+                                    <action selector="viewGrabPressed:" destination="Iuk-Vd-RC3" id="wBy-oU-q0d"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="Save" id="hY3-eE-fs7">
                                 <connections>
@@ -526,11 +533,43 @@
                         <outlet property="saveButton" destination="hY3-eE-fs7" id="8S4-H0-jEl"/>
                         <outlet property="screenView" destination="zcx-2C-7mw" id="mZH-bX-Fjv"/>
                         <outlet property="textBoxView" destination="YY7-SP-QLp" id="eyy-s8-ULq"/>
+                        <segue destination="yAU-q9-0CY" kind="show" identifier="ShowGrabbedImage" id="A3T-nw-Vgz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VOD-cl-eWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2763.75" y="380.28169014084506"/>
+        </scene>
+        <!--Image Grab View Controller-->
+        <scene sceneID="KhH-0K-b0B">
+            <objects>
+                <viewController id="yAU-q9-0CY" customClass="ImageGrabViewController" customModule="DoorSign" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tzz-HT-sUQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ipY-Vm-rHY">
+                                <rect key="frame" x="0.0" y="64" width="320" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="P9b-2A-iZL"/>
+                                    <constraint firstAttribute="height" constant="240" id="wJ0-bA-CFh"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ipY-Vm-rHY" firstAttribute="centerX" secondItem="tzz-HT-sUQ" secondAttribute="centerX" id="GvM-3o-wvP"/>
+                            <constraint firstItem="ipY-Vm-rHY" firstAttribute="top" secondItem="MnR-eF-WEF" secondAttribute="top" id="KNG-bi-vvt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MnR-eF-WEF"/>
+                    </view>
+                    <connections>
+                        <outlet property="grabbedImageView" destination="ipY-Vm-rHY" id="hN9-dK-wwg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cao-p8-zPu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4200" y="368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3rU-4c-gPN">

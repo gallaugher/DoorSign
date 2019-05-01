@@ -35,6 +35,7 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     var selectedTextBlock: TextBlock!
     var textViewArray: [UITextView] = []
     let reduceBlockSpaceBy: CGFloat = 10
+    var grabbedImage = UIImage()
     
     // var screen: Screen!
     var element: Element!
@@ -479,6 +480,19 @@ class ScreenLayoutTableViewController: UITableViewController, UITextViewDelegate
     
     @IBAction func addImageButtonPressed(_ sender: UIBarButtonItem) {
         cameraOrLibraryAlert()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! ImageGrabViewController
+        destination.grabbedImage = grabbedImage
+    }
+    
+    @IBAction func viewGrabPressed(_ sender: UIBarButtonItem) {
+        let renderer = UIGraphicsImageRenderer(size: screenView.bounds.size)
+        grabbedImage = renderer.image { ctx in
+            screenView.drawHierarchy(in: screenView.bounds, afterScreenUpdates: true)
+        }
+        performSegue(withIdentifier: "ShowGrabbedImage", sender: nil)
     }
 }
 

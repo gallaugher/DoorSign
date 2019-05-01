@@ -83,15 +83,27 @@ class Element {
     func saveImage(completed: @escaping (Bool) -> ()) {
         let storage = Storage.storage()
         // convert screen.image to a Data type so it can be saved by Firebase Storage
-        guard let imageToStore = self.backgroundImage.jpegData(compressionQuality: 0.5) else {
+        guard let imageToStore = self.backgroundImage.jpegData(compressionQuality: 0.25) else {
             print("*** ERROR: couuld not convert image to data format")
             return completed(false)
         }
+        
+        let options: NSDictionary =     [:]
+//            kCGImagePropertyOrientation: 6,
+//            kCGImagePropertyHasAlpha: true,
+//            kCGImageDestinationLossyCompressionQuality: 0.5
+//        ]
+        let convertToBmp = self.backgroundImage.toData(options: options, type: .bmp)
+        guard let bmpData = convertToBmp else {
+            print("😡 ERROR: could not convert image to a bitmap bmpData var.")
+            return
+        }
         let uploadMetadata = StorageMetadata()
-        uploadMetadata.contentType = "image/jpeg"
+        // uploadMetadata.contentType = "image/jpeg"
+        uploadMetadata.contentType = "image/bmp"
         // create a ref to upload storage to with the backgroundImageUUID that we created.
         let storageRef = storage.reference().child(self.backgroundImageUUID)
-        let uploadTask = storageRef.putData(imageToStore, metadata: uploadMetadata) {metadata, error in
+        let uploadTask = storageRef.putData(bmpData, metadata: uploadMetadata) {metadata, error in
             guard error == nil else {
                 print("😡 ERROR during .putData storage upload for reference \(storageRef). Error: \(error!.localizedDescription)")
                 return

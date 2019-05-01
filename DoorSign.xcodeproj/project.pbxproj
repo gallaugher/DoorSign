@@ -28,6 +28,9 @@
 		3ED42A4F226F9A83002BD10B /* Elements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED42A4E226F9A83002BD10B /* Elements.swift */; };
 		3EE341C6226664E300555CC4 /* static-bmp-navigation-code.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */; };
 		3EF7EBD22269BFC200AE99EB /* TextBlocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */; };
+		3EFC9CC6227561E10080F27E /* ImageGrabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC9CC5227561E10080F27E /* ImageGrabViewController.swift */; };
+		3EFC9CC82275FB6C0080F27E /* UIImage+toData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFC9CC72275FB6C0080F27E /* UIImage+toData.swift */; };
+		3EFC9CCA227648030080F27E /* adafruit_pyportal.py in Resources */ = {isa = PBXBuildFile; fileRef = 3EFC9CC9227648030080F27E /* adafruit_pyportal.py */; };
 		E35A3E974C0AA163C5807FCE /* Pods_DoorSign.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +58,9 @@
 		3ED42A4E226F9A83002BD10B /* Elements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elements.swift; sourceTree = "<group>"; };
 		3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "static-bmp-navigation-code.py"; sourceTree = "<group>"; };
 		3EF7EBD12269BFC200AE99EB /* TextBlocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBlocks.swift; sourceTree = "<group>"; };
+		3EFC9CC5227561E10080F27E /* ImageGrabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrabViewController.swift; sourceTree = "<group>"; };
+		3EFC9CC72275FB6C0080F27E /* UIImage+toData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+toData.swift"; sourceTree = "<group>"; };
+		3EFC9CC9227648030080F27E /* adafruit_pyportal.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = adafruit_pyportal.py; sourceTree = "<group>"; };
 		7F6FB5DE1E1A7E72E406E03B /* Pods-DoorSign.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.release.xcconfig"; sourceTree = "<group>"; };
 		8C9ECE6E4E3B6ECA923A775A /* Pods_DoorSign.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoorSign.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA53D93C73CC00E6603CAA13 /* Pods-DoorSign.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoorSign.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoorSign/Pods-DoorSign.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,14 +129,17 @@
 				3E5212A2226AA86800741F2E /* ScreenLayoutTableViewController.swift */,
 				3E80E234226BE6B7005B5E4C /* UIViewController+AlertWithInput.swift */,
 				3E99C9A422694C7D00A07F4F /* UIColor+colorWithHexString.swift */,
+				3EFC9CC72275FB6C0080F27E /* UIImage+toData.swift */,
 				3ED42A46226F8CFE002BD10B /* PlusAndDisclosureDelegate.swift */,
 				3E8F3BFF22660F5E003B8DCC /* Main.storyboard */,
+				3EFC9CC5227561E10080F27E /* ImageGrabViewController.swift */,
 				3E8F3C0222660F60003B8DCC /* Assets.xcassets */,
 				3E8F3C0422660F60003B8DCC /* LaunchScreen.storyboard */,
 				3E8F3C0722660F60003B8DCC /* Info.plist */,
 				3E3F32CE2266902A00F2C9C6 /* GoogleService-Info.plist */,
 				3EE341C5226664E300555CC4 /* static-bmp-navigation-code.py */,
 				3E1A7DD722754E010012D65B /* code.py */,
+				3EFC9CC9227648030080F27E /* adafruit_pyportal.py */,
 				3E1A7DD922754F220012D65B /* Images Used on PyPortal for testing */,
 			);
 			path = DoorSign;
@@ -202,6 +211,7 @@
 				3EE341C6226664E300555CC4 /* static-bmp-navigation-code.py in Resources */,
 				3E3F32CF2266902A00F2C9C6 /* GoogleService-Info.plist in Resources */,
 				3E1A7DD822754E010012D65B /* code.py in Resources */,
+				3EFC9CCA227648030080F27E /* adafruit_pyportal.py in Resources */,
 				3E8F3C0322660F60003B8DCC /* Assets.xcassets in Resources */,
 				3E8F3C0122660F5E003B8DCC /* Main.storyboard in Resources */,
 			);
@@ -307,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EFC9CC6227561E10080F27E /* ImageGrabViewController.swift in Sources */,
 				3E5212A3226AA86800741F2E /* ScreenLayoutTableViewController.swift in Sources */,
 				3ED42A4B226F8E8F002BD10B /* PageTableViewCell.swift in Sources */,
 				3E99C9A32269453000A07F4F /* Constants.swift in Sources */,
@@ -314,6 +325,7 @@
 				3E80E235226BE6B7005B5E4C /* UIViewController+AlertWithInput.swift in Sources */,
 				3E35AB02226BB5460067C3E8 /* HomeTableViewCell.swift in Sources */,
 				3E99C9A522694C7D00A07F4F /* UIColor+colorWithHexString.swift in Sources */,
+				3EFC9CC82275FB6C0080F27E /* UIImage+toData.swift in Sources */,
 				3E99C99F2269186400A07F4F /* TextBlock.swift in Sources */,
 				3ED42A4D226F9595002BD10B /* Element.swift in Sources */,
 				3E8F3BFE22660F5E003B8DCC /* ScreenListViewController.swift in Sources */,
